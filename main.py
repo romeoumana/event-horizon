@@ -17,21 +17,25 @@
 import webapp2
 import jinja2
 import os
+from google.appengine.api import users
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         template= jinja_environment.get_template('templates/home.html')
-        self.response.write(template.render())
+        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         template= jinja_environment.get_template('template/about.html')
         self.response.write(template.render())
 
 class SavedPage(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         template= jinja_environment.get_template('template/saved.html')
-        self.response.write(template.render())
+        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
