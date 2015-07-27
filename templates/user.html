@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<body>
+{% if user %}
+  {{"Welcome, %s! <a href='%s'>sign out</a>" %( nickname, logout_link)}}
+{% else %}
+  {{"<a href='%s'>Sign in or register</a>" %login_link}}
+{% endif %}
+</body>
