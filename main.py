@@ -37,26 +37,26 @@ class MainHandler(webapp2.RequestHandler):
 class AboutPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template= jinja_environment.get_template('template/about.html')
+        template= jinja_environment.get_template('templates/about.html')
         self.response.write(template.render())
 
 class SavedPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template= jinja_environment.get_template('template/saved.html')
+        template= jinja_environment.get_template('templates/saved.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
 #####this is what we have
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('template/form.html')
+        template = jinja_environment.get_template('templates/form.html')
         self.response.write(template.render())
 
     def post(self):
         student = Student(name=self.request.get('name'), school=self.request.get('school'), age = int(self.request.get('age')))
         key = student.put()
-        template = jinja_environment.get_template('template/student.html')
+        template = jinja_environment.get_template('templates/student.html')
         student_info = {
             'student_name': key.get().name,
             'school': key.get().school,
@@ -92,10 +92,10 @@ def get_info(method, query):
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('template/search.html')
+        template = jinja_environment.get_template('templates/search.html')
         self.response.write(template.render())
     def post(self):
-        template = jinja_environment.get_template('template/student.html')
+        template = jinja_environment.get_template('templates/student.html')
         query = self.request.get('query')
 
         method = self.request.get('which_one')
@@ -114,7 +114,7 @@ class StudentHandler(webapp2.RequestHandler):
     def get(self):
         student_id = int(self.request.get('id'))
         student = Student.get_by_id(student_id)
-        template = jinja_environment.get_template('template/student.html')
+        template = jinja_environment.get_template('templates/student.html')
         student_info = {
             'student_name': student.name,
             'school': student.school,
