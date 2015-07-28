@@ -28,6 +28,20 @@ class Student(ndb.Model):
     school = ndb.StringProperty(required=True)
     age = ndb.IntegerProperty(required=True)
 
+class Profile(ndb.Model):
+    name = ndb.StringProperty(required=True)
+
+class Event(ndb.Model):
+    name = ndb.StringProperty(required=True)
+    location = ndb.GeoPtProperty(required=True)
+    time = ndb.DateTimeProperty(required=True)
+    description = ndb.TextProperty(required=True)
+    pictures = ndb.BlobProperty(required=True)
+
+class RomeoHandler(webapp2.RequestHandler):
+    def get(self):
+        template= jinja_environment.get_template('templates/romeo.html')
+        self.response.write(template.render({'results': "no swag"}))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -143,6 +157,7 @@ routes = [
     ('/', MainHandler),
     ('/about', AboutPage),
     ('/saved', SavedPage),
+    ('/romeo', RomeoHandler),
 
 ]
 
