@@ -126,15 +126,9 @@ class MapHandler(webapp2.RequestHandler):
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
-        user = User(name=self.request.get('name'), email=self.request.get('email'), number = self.request.get('number'))
-        key = user.put()
+        user = users.get_current_user()
         template = jinja_environment.get_template('templates/my_profile.html')
-        user_info = {
-            'name': key.get().name,
-            'email': key.get().email,
-            'number': key.get().number,
-        }
-        self.response.write(template.render(user_info))
+        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
 def get_data(user):
     return {
