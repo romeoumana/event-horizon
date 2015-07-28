@@ -160,7 +160,8 @@ routes = [
     ('/about', AboutPage),
     ('/saved_events', SavedPage),
     ('/romeo', RomeoHandler),
-    ('/my_profile', FormHandler),
+    ('/form', FormHandler),
+    ('/my_profile', ProfileHandler)
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
