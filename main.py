@@ -36,20 +36,27 @@ import httplib2
 import simplejson
 import eventful
 
-class User(ndb.Model):
+class Person(ndb.Model):
     name = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     number = ndb.StringProperty(required=True) # change to int property later
+    bio = ndb.TextProperty(required=True)
+    events = StructuredProperty(Event, repeated=True)
+    userID = ndb.StringProperty(required=True)
 
-class Profile(ndb.Model):
-    name = ndb.StringProperty(required=True)
 
 class Event(ndb.Model):
     name = ndb.StringProperty(required=True)
     location = ndb.GeoPtProperty(required=True)
-    time = ndb.DateTimeProperty(required=True)
+    time = ndb.StringProperty(required=True)
     description = ndb.TextProperty(required=True)
     pictures = ndb.BlobProperty(required=True)
+    people = StructuredProperty(Person, repeated=True)
+
+
+class PersonEvent(ndb.Model):
+    person = ndb.KeyProperty(Person)
+    event = ndb.KeyProperty(Event)
 
 class RomeoHandler(webapp2.RequestHandler):
     def get(self):
