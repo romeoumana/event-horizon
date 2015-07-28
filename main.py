@@ -64,11 +64,13 @@ class MainHandler(webapp2.RequestHandler):
     def post(self):
         #!/usr/bin/env python
 
-        api = eventful.API('test_key', cache='.cache')
+        api = eventful.API('test_key', cache=None)
         events = api.call('/events/search', q='music', l='San Diego')
+        logging.info(events)
 
         for event in events['events']['event']:
             self.response.write("%s at %s" % (event['title'], event['venue_name']))
+            self.response.write("<br>")
 
 
         '''
