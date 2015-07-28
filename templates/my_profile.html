@@ -1,18 +1,18 @@
 <html>
   <head>
+    {% include 'templates/user.html' %}
     <title>User Info</title>
   </head>
-
   <body>
-      <h3>Name: {{user_name}}</h3>
+      <h3>Name: {{name}}</h3>
       <h3>Email: {{email}}</h3>
-      <h3>Phone Number: {{number}}</h3> <br>
+      <h3>Number: {{number}}</h3> <br>
 
       <!-- Maybe put this in sign up page and show the info here instead-->
       <form method='post' action='/'>
         What is your location? <input type='text' name='city'>
         <input type='submit'>
       </form>
-
+      <button id='my_profile' onclick="location.href='/'">Go Back</button>
   </body>
 </html>
