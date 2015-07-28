@@ -41,7 +41,7 @@ class Person(ndb.Model):
     email = ndb.StringProperty(required=True)
     number = ndb.StringProperty(required=True) # change to int property later
     bio = ndb.TextProperty(required=True)
-    events = StructuredProperty(Event, repeated=True)
+    # events = ndb.StructuredProperty(Event, repeated=True)
     userID = ndb.StringProperty(required=True)
 
 
@@ -51,7 +51,7 @@ class Event(ndb.Model):
     time = ndb.StringProperty(required=True)
     description = ndb.TextProperty(required=True)
     pictures = ndb.BlobProperty(required=True)
-    people = StructuredProperty(Person, repeated=True)
+    # people = ndb.StructuredProperty(Person, repeated=True)
 
 
 class PersonEvent(ndb.Model):
