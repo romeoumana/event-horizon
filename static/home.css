@@ -1,15 +1,24 @@
 body{
-  background-image: url(http://www.photos-public-domain.com/wp-content/uploads/2011/02/purple-leather-texture.jpg);
-  background-position: center;
+  background-image: url(http://baihusi.com/wp-content/uploads/2015/03/original-black-wood-texture-wood-grain-black-life-cl-ical-two-wallpaper-with-1900x1200-resolution.jpg);
   background-repeat: no-repeat;
 }
 h1{
 color: white;
 text-align: center;
-font-size: 40px;
+font-size: 50px;
 font-family:sans-serif;
 }
 #menutab{
   color: white;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.2);
+  border: solid;
+  border-color: white;
+  font-size: 20px;
+}
+form{
+  color: white;
+}
+footer{
+  color: white;
+
 }
