@@ -38,7 +38,7 @@ import eventful
 
 class Person(ndb.Model):
     name = ndb.StringProperty(required=True)
-    email = ndb.StringProperty(required=True)
+    email = ndb.StringProperty(required=True,)
     number = ndb.StringProperty(required=True) # change to int property later
     bio = ndb.TextProperty(required=True)
     # events = ndb.StructuredProperty(Event, repeated=True)
@@ -188,6 +188,11 @@ class StudentHandler(webapp2.RequestHandler):
         }
         self.response.write(template.render(student_info))
 
+class CreateProfileHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/romeo.html')
+        self.repsonse.write(template.render())
+
 
 
 
@@ -199,6 +204,7 @@ routes = [
     ('/map', MapHandler),
     ('/form', FormHandler),
     ('/my_profile', ProfileHandler),
+    ('/create_profile', CreateProfileHandler)
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
