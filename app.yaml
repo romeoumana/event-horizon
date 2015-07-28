@@ -18,6 +18,11 @@ handlers:
 - url: /_ah/login_required
   script: do_openid_login.app
 
+- url: /youraccount/.*
+  script: accounts.app
+  login: required
+  secure: always
+
 libraries:
 - name: webapp2
   version: "2.5.2"
