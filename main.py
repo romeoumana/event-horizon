@@ -22,7 +22,6 @@ import json
 import urllib
 
 
-
 from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -38,11 +37,12 @@ import eventful
 
 class Person(ndb.Model):
     name = ndb.StringProperty(required=True)
-    email = ndb.StringProperty(required=True,)
-    number = ndb.StringProperty(required=True) # change to int property later
-    bio = ndb.TextProperty(required=True)
-    # events = ndb.StructuredProperty(Event, repeated=True)
     userID = ndb.StringProperty(required=True)
+    email = ndb.StringProperty()
+    number = ndb.StringProperty() # change to int property later
+    bio = ndb.TextProperty()
+    # events = ndb.StructuredProperty(Event, repeated=True)
+
 
 
 class Event(ndb.Model):
@@ -69,7 +69,7 @@ class MainHandler(webapp2.RequestHandler):
         template= jinja_environment.get_template('templates/sign_in.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
         if user:
-            self.redirect('/home')
+            self.redirect('/create_profile')
 
 class Home(webapp2.RequestHandler):
     def get(self):
@@ -80,6 +80,7 @@ class Home(webapp2.RequestHandler):
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
+
     def post(self):
         #!/usr/bin/env python
         api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
@@ -220,8 +221,12 @@ class StudentHandler(webapp2.RequestHandler):
 
 class CreateProfileHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/romeo.html')
+        template = jinja_environment.get_template('templates/profile_form.html')
         self.repsonse.write(template.render())
+    def get(self):
+        user = users.get_current_user()
+        person = Person(name = self.request.get('person_name'), userID = user.user_id()).put()
+        self.redirect('/home')
 
 
 
