@@ -36,20 +36,27 @@ import httplib2
 import simplejson
 import eventful
 
-class User(ndb.Model):
+class Person(ndb.Model):
     name = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     number = ndb.StringProperty(required=True) # change to int property later
+    bio = ndb.TextProperty(required=True)
+    events = StructuredProperty(Event, repeated=True)
+    userID = ndb.StringProperty(required=True)
 
-class Profile(ndb.Model):
-    name = ndb.StringProperty(required=True)
 
 class Event(ndb.Model):
     name = ndb.StringProperty(required=True)
     location = ndb.GeoPtProperty(required=True)
-    time = ndb.DateTimeProperty(required=True)
+    time = ndb.StringProperty(required=True)
     description = ndb.TextProperty(required=True)
     pictures = ndb.BlobProperty(required=True)
+    people = StructuredProperty(Person, repeated=True)
+
+
+class PersonEvent(ndb.Model):
+    person = ndb.KeyProperty(Person)
+    event = ndb.KeyProperty(Event)
 
 class RomeoHandler(webapp2.RequestHandler):
     def get(self):
@@ -63,9 +70,9 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
     def post(self):
         #!/usr/bin/env python
-
-        api = eventful.API('test_key', cache=None)
-        events = api.call('/events/search', q='music', l='San Diego')
+        api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
+        # api = eventful.API('test_key', cache=None)
+        events = api.call('/events/search', q= self.request.get('query'), l='Boston') #later will be self.request.get('city')
         logging.info(events)
 
         for event in events['events']['event']:
