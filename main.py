@@ -18,7 +18,8 @@ import webapp2
 import jinja2
 import os
 import logging
-
+import json
+from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
@@ -33,6 +34,20 @@ class MainHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         template= jinja_environment.get_template('templates/home.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+    '''def post(self):
+        results_template= jinja_environment.get_template('templates/results.html')
+        base_url = "http://eventful.com/json/events?q=music&l="
+        api_key_url = "&api_key=P39qwcnBXLTHTnP3"
+        search_term=self.request.get('city')
+        search_term= search_term.replace(' ', '+')
+        url=base_url + search_term + api_key_url
+        eventful_data_source= urlfetch.fetch(url)
+        eventful_json_content= eventful_data_source.content
+        eventful_dictionary= json.loads(eventful_json_content)
+        #url_dictionary=eventful_dictionary['data'][0]['']['original']['url']
+        #goodurl={'niceurl': url}
+        self.response.out.write(results_template.render({'url': url}))'''
+
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
