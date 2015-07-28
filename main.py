@@ -19,14 +19,22 @@ import jinja2
 import os
 import logging
 import json
-import httplib2
 import urllib
-import simplejson
-import eventful
+
+
 
 from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.ext import ndb
+
+from google.appengine.ext import vendor
+
+# Add any libraries installed in the "lib" folder.
+vendor.add('lib')
+
+import httplib2
+import simplejson
+import eventful
 
 class User(ndb.Model):
     name = ndb.StringProperty(required=True)
