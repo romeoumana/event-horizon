@@ -82,6 +82,11 @@ class FormHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/form.html')
         self.response.write(template.render())
 
+class MapHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/map.html')
+        self.response.write(template.render())
+
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = User(name=self.request.get('name'), email=self.request.get('email'), number = self.request.get('number'))
@@ -161,6 +166,7 @@ routes = [
     ('/saved_events', SavedPage),
     ('/romeo', RomeoHandler),
     ('/my_profile', FormHandler),
+    ('/map', MapHandler),
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
