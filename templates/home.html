@@ -9,53 +9,38 @@
     <link rel="shortcut icon" href="favicon.ico">
   </head>
   <body>
-
-    <header>
+    <h1>The Event Horizon </h1>
+    <br>
       <nav>
-        <p><!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
-            <a href="/form">New Event</a>
-            <a href="/my_profile">My Profile</a>
-            <a href="/saved">Saved Events</a>
-            <a href="map_events.html">Map Events</a>
+        <p>
+          <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
+          <a href="/form">New Event</a>
+          <a href="/my_profile">My Profile</a>
+          <a href="/saved">Saved Events</a>
+          <a href="map_events.html">Map Events</a>
         </p>
+        <br>
           <search> <!-- So far, just search by name and id. Other options include: date, specific location, cost, etc. -->
               <form method = "post">
                 Search for an event by name  <input type="text" name="query">
-                <br>
                 <input type = "submit">
                 <br>
-                <input type = "hidden" name = "which_one" value = "name">
               </form>
-
-              <br><br>
-
+              <br>
               <form method = "post">
                 Search for an event by id <input type="text" name="query">
-                <br>
                 <input type = "submit">
                 <br>
-                <input type = "hidden" name = "which_one" value = "id">
               </form>
-
             </search>
-          </body>
-        </html>
       </nav>
-    </header> <br>
-
-    <div class="titles">
-    <h1>The Event Horizon </h1>
-    </div>
-
+   <br>
       <!--<button onclick="goGetLunch()">Click me</button>
       <button onclick="askForName()">Get Name</button>-->
-    </p>
-
   </body>
   <footer>
     <p class="footer">Copyright
     <br> (c) Karen Dorvil, Romeo Umana, & Rainbow (Laan) Yeung, 2015.
     <a href='/about'>About</a>
-    </p>
   </footer>
 </html>
