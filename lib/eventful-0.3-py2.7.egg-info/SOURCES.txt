@@ -1,0 +1,10 @@
+README
+eventful.py
+setup.cfg
+setup.py
+eventful.egg-info/PKG-INFO
+eventful.egg-info/SOURCES.txt
+eventful.egg-info/dependency_links.txt
+eventful.egg-info/not-zip-safe
+eventful.egg-info/requires.txt
+eventful.egg-info/top_level.txt

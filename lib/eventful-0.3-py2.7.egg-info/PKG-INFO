@@ -1,0 +1,23 @@
+Metadata-Version: 1.1
+Name: eventful
+Version: 0.3
+Summary: A client for the Eventful API.
+Home-page: http://api.eventful.com/libs/python/
+Author: Chris Radcliff
+Author-email: api-developers@eventful.com
+License: MIT
+Download-URL: http://api.eventful.com/libs/python/dist/eventful-0.3.tar.gz
+Description: 
+        A client for Eventful's API (http://api.eventful.com/).
+        
+        Uses httplib2 and simplejson.
+              
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries
