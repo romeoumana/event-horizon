@@ -66,8 +66,20 @@ class RomeoHandler(webapp2.RequestHandler):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template= jinja_environment.get_template('templates/home.html')
+        template= jinja_environment.get_template('templates/sign_in.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+        if user:
+            self.redirect('/home')
+
+class Home(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            template= jinja_environment.get_template('templates/home.html')
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+        else:
+            not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
+            self.response.write(not_signed_in_template.render())
     def post(self):
         #!/usr/bin/env python
         api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
@@ -103,33 +115,51 @@ class MainHandler(webapp2.RequestHandler):
 class AboutPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template= jinja_environment.get_template('templates/about.html')
-        self.response.write(template.render())
+        if user:
+            template= jinja_environment.get_template('templates/about.html')
+            self.response.write(template.render())
+        else:
+            not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
+            self.response.write(not_signed_in_template.render())
 
 class SavedHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template= jinja_environment.get_template('templates/saved_events.html')
-        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
-
+        if user:
+            template= jinja_environment.get_template('templates/saved_events.html')
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+        else:
+            not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
+            self.response.write(not_signed_in_template.render())
 #####this is what we have
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/form.html')
-        self.response.write(template.render())
+        if user:
+            template = jinja_environment.get_template('templates/form.html')
+            self.response.write(template.render())
+        else:
+            not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
+            self.response.write(not_signed_in_template.render())
 
 class MapHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/map.html')
-        self.response.write(template.render())
+        if user:
+            template = jinja_environment.get_template('templates/map.html')
+            self.response.write(template.render())
+        else:
+            not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
+            self.response.write(not_signed_in_template.render())
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template = jinja_environment.get_template('templates/my_profile.html')
-        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
-
+        if user:
+            template = jinja_environment.get_template('templates/my_profile.html')
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+        else:
+            not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
+            self.response.write(not_signed_in_template.render())
 def get_data(user):
     return {
         'name': user.name,
@@ -197,7 +227,8 @@ class CreateProfileHandler(webapp2.RequestHandler):
 
 
 routes = [
-    ('/', MainHandler),
+    ('/',MainHandler),
+    ('/home', Home),
     ('/about', AboutPage),
     ('/saved', SavedHandler),
     ('/romeo', RomeoHandler),
