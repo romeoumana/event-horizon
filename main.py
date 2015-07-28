@@ -63,9 +63,9 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
     def post(self):
         #!/usr/bin/env python
-
-        api = eventful.API('test_key', cache=None)
-        events = api.call('/events/search', q='music', l='San Diego')
+        api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
+        # api = eventful.API('test_key', cache=None)
+        events = api.call('/events/search', q= self.request.get('query'), l='Boston') #later will be self.request.get('city')
         logging.info(events)
 
         for event in events['events']['event']:
