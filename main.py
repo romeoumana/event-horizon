@@ -66,6 +66,14 @@ class RomeoHandler(webapp2.RequestHandler):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        template= jinja_environment.get_template('templates/sign_in.html')
+        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+        if user:
+            self.redirect('/home')
+
+class Home(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
         template= jinja_environment.get_template('templates/home.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
     def post(self):
@@ -192,7 +200,8 @@ class StudentHandler(webapp2.RequestHandler):
 
 
 routes = [
-    ('/', MainHandler),
+    ('/',MainHandler),
+    ('/home', Home),
     ('/about', AboutPage),
     ('/saved', SavedHandler),
     ('/romeo', RomeoHandler),
