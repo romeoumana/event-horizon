@@ -78,10 +78,11 @@ class SavedPage(webapp2.RequestHandler):
 #####this is what we have
 
 class FormHandler(webapp2.RequestHandler):
-        #def get(self):
-        #template = jinja_environment.get_template('templates/form.html')
-        #self.response.write(template.render())
+    def get(self):
+        template = jinja_environment.get_template('templates/form.html')
+        self.response.write(template.render())
 
+class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = User(name=self.request.get('name'), email=self.request.get('email'), number = self.request.get('number'))
         key = user.put()
@@ -150,21 +151,16 @@ class StudentHandler(webapp2.RequestHandler):
             'age': student.age,
         }
         self.response.write(template.render(student_info))
-class Form(webapp2.RequestHandler):
-    def get (self):
-        template= jinja_environment.get_template('templates/form.html')
-        self.response.write(template.render())
+
 
 
 
 routes = [
     ('/', MainHandler),
     ('/about', AboutPage),
-    ('/saved', SavedPage),
+    ('/saved_events', SavedPage),
     ('/romeo', RomeoHandler),
     ('/my_profile', FormHandler),
-    ('/form', Form)
-
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
