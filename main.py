@@ -97,7 +97,7 @@ class AboutPage(webapp2.RequestHandler):
         template= jinja_environment.get_template('templates/about.html')
         self.response.write(template.render())
 
-class SavedPage(webapp2.RequestHandler):
+class SavedHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template= jinja_environment.get_template('templates/saved_events.html')
@@ -191,9 +191,8 @@ class StudentHandler(webapp2.RequestHandler):
 routes = [
     ('/', MainHandler),
     ('/about', AboutPage),
-    ('/saved_events', SavedPage),
+    ('/saved', SavedHandler),
     ('/romeo', RomeoHandler),
-    ('/my_profile', FormHandler),
     ('/map', MapHandler),
     ('/form', FormHandler),
     ('/my_profile', ProfileHandler),
