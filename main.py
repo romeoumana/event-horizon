@@ -167,6 +167,8 @@ routes = [
     ('/romeo', RomeoHandler),
     ('/my_profile', FormHandler),
     ('/map', MapHandler),
+    ('/form', FormHandler),
+    ('/my_profile', ProfileHandler),
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
