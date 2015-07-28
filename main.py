@@ -72,7 +72,7 @@ class AboutPage(webapp2.RequestHandler):
 class SavedPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template= jinja_environment.get_template('templates/saved.html')
+        template= jinja_environment.get_template('templates/saved_events.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
 #####this is what we have
@@ -150,6 +150,10 @@ class StudentHandler(webapp2.RequestHandler):
             'age': student.age,
         }
         self.response.write(template.render(student_info))
+class Form(webapp2.RequestHandler):
+    def get (self):
+        template= jinja_environment.get_template('templates/form.html')
+        self.response.write(template.render())
 
 
 
@@ -159,6 +163,7 @@ routes = [
     ('/saved', SavedPage),
     ('/romeo', RomeoHandler),
     ('/my_profile', FormHandler),
+    ('/form', Form)
 
 ]
 
