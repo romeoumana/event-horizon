@@ -23,10 +23,10 @@ from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
-class Student(ndb.Model):
+class User(ndb.Model):
     name = ndb.StringProperty(required=True)
-    school = ndb.StringProperty(required=True)
-    age = ndb.IntegerProperty(required=True)
+    email = ndb.StringProperty(required=True)
+    number = ndb.StringProperty(required=True) # change to int property later
 
 class Profile(ndb.Model):
     name = ndb.StringProperty(required=True)
@@ -78,26 +78,26 @@ class SavedPage(webapp2.RequestHandler):
 #####this is what we have
 
 class FormHandler(webapp2.RequestHandler):
+        #def get(self):
+        #template = jinja_environment.get_template('templates/form.html')
+        #self.response.write(template.render())
+
     def get(self):
-        template = jinja_environment.get_template('templates/form.html')
-        self.response.write(template.render())
-
-    def post(self):
-        student = Student(name=self.request.get('name'), school=self.request.get('school'), age = int(self.request.get('age')))
-        key = student.put()
-        template = jinja_environment.get_template('templates/student.html')
-        student_info = {
-            'student_name': key.get().name,
-            'school': key.get().school,
-            'age': key.get().age,
+        user = User(name=self.request.get('name'), email=self.request.get('email'), number = self.request.get('number'))
+        key = user.put()
+        template = jinja_environment.get_template('templates/my_profile.html')
+        user_info = {
+            'name': key.get().name,
+            'email': key.get().email,
+            'number': key.get().number,
         }
-        self.response.write(template.render(student_info))
+        self.response.write(template.render(user_info))
 
-def get_data(student):
+def get_data(user):
     return {
-        'student_name': student.name,
-        'school': student.school,
-        'age': student.age,
+        'name': user.name,
+        'email': user.email,
+        'number': user.number,
     }
 
 
@@ -158,6 +158,7 @@ routes = [
     ('/about', AboutPage),
     ('/saved', SavedPage),
     ('/romeo', RomeoHandler),
+    ('/my_profile', FormHandler),
 
 ]
 
