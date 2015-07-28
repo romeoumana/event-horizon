@@ -1,4 +1,3 @@
-{% include 'templates/user.html' %}
 <!DOCTYPE.html>
 <html>
   <head>
@@ -11,12 +10,13 @@
       <h3>Name: {{name}}</h3>
       <h3>Email: {{email}}</h3>
       <h3>Number: {{number}}</h3> <br>
+<!--      <h3>Profile Picture: </h3>   -->
 
       <!-- Maybe put this in sign up page and show the info here instead-->
       <form method='post' action='/'>
         What is your location? <input type='text' name='city'>
         <input type='submit'>
       </form>
-      <button id='my_profile' onclick="location.href='/'">Go Back</button>
+      <!-- <button id='my_profile' onclick="location.href='/'">Go Back</button> -->
   </body>
 </html>
