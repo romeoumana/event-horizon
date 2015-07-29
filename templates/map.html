@@ -23,12 +23,16 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script>
+    var MY_MAPTYPE_ID = 'custom_style';
       function initialize() {
+
         var mapCanvas = document.getElementById('map-canvas');
         var mapOptions = {
           zoom: 8,
           mapTypeId: google.maps.MapTypeId.ROADMAP
+
         }
+
         var map = new google.maps.Map(mapCanvas, mapOptions)
 
         // Try HTML5 geolocation
@@ -40,7 +44,7 @@
             var infowindow = new google.maps.InfoWindow({
               map: map,
               position: pos,
-              content: 'Location found using HTML5.'
+              content: 'Your location'
             });
 
             map.setCenter(pos);
@@ -69,8 +73,9 @@
 
         var infowindow = new google.maps.InfoWindow(options);
         map.setCenter(options.position);
+
       }
-      
+
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
@@ -84,4 +89,5 @@
   </footer>
 </html>
 
-<!-- reference: https://developers.google.com/maps/tutorials/fundamentals/adding-a-google-map -->
+<!-- reference: https://developers.google.com/maps/tutorials/fundamentals/adding-a-google-map
+https://developers.google.com/maps/documentation/javascript/examples/event-closure -->
