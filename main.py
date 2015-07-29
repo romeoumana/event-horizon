@@ -136,6 +136,7 @@ class SavedHandler(webapp2.RequestHandler):
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/form.html')
             self.response.write(template.render())
@@ -145,6 +146,7 @@ class FormHandler(webapp2.RequestHandler):
 
 class MapHandler(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/map.html')
             self.response.write(template.render())
