@@ -48,10 +48,18 @@ class Person(ndb.Model):
 
 class Event(ndb.Model):
     name = ndb.StringProperty(required=True)
-    location = ndb.GeoPtProperty(required=True)
-    time = ndb.StringProperty(required=True)
+    place = ndb.StringProperty(required=True)
     description = ndb.TextProperty(required=True)
-    pictures = ndb.BlobProperty(required=True)
+    address = ndb.StringProperty(required=True)
+    city = ndb.StringProperty(required=True)
+    region = ndb.StringProperty(required=True)
+    zip_code = ndb.StringProperty(required=True)
+    country = ndb.StringProperty(required=True)
+    start_time = ndb.StringProperty(required=True)
+    frequency = ndb.StringProperty(required=True)
+    location = ndb.GeoPtProperty()
+    pictures = ndb.BlobProperty(required=True, repeated=True)
+
     # people = ndb.StructuredProperty(Person, repeated=True)
 
 
@@ -98,6 +106,8 @@ class Home(webapp2.RequestHandler):
         result=""
         for event in events['events']['event']:
             result+="%s at %s%s" % (event['title'], event['venue_name'],"<br>")
+
+
         self.response.write(result_template.render({"results": result}))
 
 
@@ -186,25 +196,6 @@ class ProfileHandler(webapp2.RequestHandler):
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
 
-class SearchHandler(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template('templates/search.html')
-        self.response.write(template.render())
-    def post(self):
-        template = jinja_environment.get_template('templates/student.html')
-        query = self.request.get('query')
-
-        method = self.request.get('which_one')
-        student_info = get_info(method, query)
-
-        if (student_info):
-            self.response.write(template.render(student_info))
-        else:
-            self.response.write("No results found :( <br> Let me just show you all the students :) <br><br>")
-            for student in Student.query():
-                self.response.write(template.render(get_data(student)))
-            self.response.write("<a href='/home'>Go back home</a> <br>")
-
 class CreateProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -213,7 +204,6 @@ class CreateProfileHandler(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         person = Person(name = self.request.get('person_name'), userID = user.user_id(), email = user.email(), number = '305-305-3053', bio = self.request.get('bio'))
-
         person.put()
         self.redirect('/home')
 
