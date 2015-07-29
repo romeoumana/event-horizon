@@ -1,10 +1,12 @@
 <!DOCTYPE.html>
+{% include 'templates/user.html' %}
 <html>
   <head>
     {% include 'templates/user.html' %}
     <title>User Info</title>
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
     <link rel="stylesheet" type="text/css" href="/static/my_profile.css">
+    <link rel="stylesheet" type="text/css" href="/static/event.css">
   </head>
   <body>
       <h1>
@@ -18,16 +20,16 @@
 
       </p>
       <br>
-      <h3>Name: {{name}}</h3>
-      <h3>Place: {{place}}</h3>
-      <h3>Description: {{description}}</h3>
-      <h3>Address: {{address}}</h3>
-      <h3>City: {{city}}</h3>
-      <h3>State/Region: {{region}}</h3>
-      <h3>Postal Code: {{zip_code}}</h3>
-      <h3>Country: {{country}}</h3>
-      <h3>Starts at: {{start_time}}</h3>
-      <h3>Frequency: {{frequency}}</h3> 
+      <h3 id='name'>{{name}}</h3>
+      <h3 id='time'>Time: {{start_time}}
+      <br> for {{frequency}} </h3>
+      <h3 id='address'>Address: {{place}},
+      <br> {{address}},
+      <br> {{city}}, {{region}}, {{zip_code}}
+      <br> {{country}}
+      <a href="/map"> Click to see {{city}} events on map</a>
+      </h3>
+      <h3 id='description'>Description: {{description}}</h3>
       <br>
 <!--      <h3>Profile Picture: </h3>   -->
 
