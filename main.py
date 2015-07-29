@@ -173,41 +173,17 @@ class ProfileHandler(webapp2.RequestHandler):
             for person in people:
                 if person.userID == user.user_id():
                     template_data['name'] = person.name #unicodedata.normalize('NFKD', person.name).encode('ascii','ignore')
+                    template_data['email'] = user.email()
                     template_data['bio'] = person.bio
                     self.response.write(template.render(template_data))
                     break
+            # line below may never execute because user will always have a profile at this point
+            # only uncomment line below if Google users get in without a TEH profile
             # self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
-
-
-def get_data(user):
-    return {
-        'name': user.name,
-        'email': user.email,
-        'number': user.number,
-    }
-
-
-def get_info(method, query):
-    student_info = None
-
-    if method == 'name':
-        logging.info("we're looking for mir")
-        moar_students = Student.query()
-        for student in moar_students:
-            if student.name == query:
-                logging.info("found mur")
-                student_info = get_data(student)
-
-    if method == 'id':
-        student = Student.get_by_id(int(query))
-        if student:
-            student_info = get_data(student)
-    return student_info
-
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
@@ -227,26 +203,6 @@ class SearchHandler(webapp2.RequestHandler):
             for student in Student.query():
                 self.response.write(template.render(get_data(student)))
             self.response.write("<a href='/home'>Go back home</a> <br>")
-
-
-class StudentHandler(webapp2.RequestHandler):
-    def get(self):
-        student_id = int(self.request.get('id'))
-        student = Student.get_by_id(student_id)
-        template = jinja_environment.get_template('templates/student.html')
-        student_info = {
-            'student_name': student.name,
-            'school': student.school,
-            'age': student.age,
-        }
-        self.response.write(template.render(student_info))
-
-
-# name = ndb.StringProperty(required=True)
-# userID = ndb.StringProperty(required=True)
-# email = ndb.StringProperty()
-# number = ndb.StringProperty() # change to int property later
-# bio = ndb.TextProperty()
 
 class CreateProfileHandler(webapp2.RequestHandler):
     def get(self):
