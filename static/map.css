@@ -2,26 +2,17 @@ body{
   background-image: url(http://baihusi.com/wp-content/uploads/2015/03/original-black-wood-texture-wood-grain-black-life-cl-ical-two-wallpaper-with-1900x1200-resolution.jpg);
   background-repeat: no-repeat;
 }
-h1, h2{
+h1{
   color: white;
   text-align: center;
   font-family:sans-serif;
   background-color: rgba(41, 0, 41, 0.5);
-}
-h1{
   font-size: 50px;
 }
-#aboutpeople{
-  background-image: url(http://ih1.redbubble.net/image.12278711.5217/fc,550x550,navy.jpg);
-  background-position:left 400px top ;
-  background-repeat: no-repeat;
-  backg/*Don't take out, don't ask why it just works*/
-  width:900px;
-    height:600px;
-    font-size: 20px;
-    animation: slide 3s infinite;
+footer{
+  color: white;
+  text-align: center;
 }
-
 a:link {
     color: #DADAFF;
 }
@@ -33,8 +24,4 @@ a:hover {
 }
 a:active {
     color: #0000FF;
-}
-footer{
-  color: white;
-  text-align: center;
 }
