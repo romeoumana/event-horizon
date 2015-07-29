@@ -20,6 +20,7 @@ import os
 import logging
 import json
 import urllib
+import unicodedata
 
 
 from google.appengine.api import urlfetch
@@ -171,7 +172,8 @@ class ProfileHandler(webapp2.RequestHandler):
             people = Person.query()
             for person in people:
                 if person.userID == user.user_id():
-                    template_data['name'] = person.name,
+                    template_data['name'] = person.name #unicodedata.normalize('NFKD', person.name).encode('ascii','ignore')
+                    template_data['bio'] = person.bio
                     self.response.write(template.render(template_data))
                     break
             # self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
@@ -239,15 +241,23 @@ class StudentHandler(webapp2.RequestHandler):
         }
         self.response.write(template.render(student_info))
 
+
+# name = ndb.StringProperty(required=True)
+# userID = ndb.StringProperty(required=True)
+# email = ndb.StringProperty()
+# number = ndb.StringProperty() # change to int property later
+# bio = ndb.TextProperty()
+
 class CreateProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = jinja_environment.get_template('templates/profile_form.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
-
     def post(self):
         user = users.get_current_user()
-        person = Person(name = self.request.get('person_name'), userID = user.user_id()).put()
+        person = Person(name = self.request.get('person_name'), userID = user.user_id(), email = user.email(), number = '305-305-3053', bio = self.request.get('bio'))
+
+        person.put()
         self.redirect('/home')
 
 
