@@ -47,18 +47,20 @@ class Person(ndb.Model):
 
 
 class Event(ndb.Model):
-    name = ndb.StringProperty(required=True)
-    place = ndb.StringProperty(required=True)
-    description = ndb.TextProperty(required=True)
-    address = ndb.StringProperty(required=True)
-    city = ndb.StringProperty(required=True)
-    region = ndb.StringProperty(required=True)
-    zip_code = ndb.StringProperty(required=True)
-    country = ndb.StringProperty(required=True)
-    start_time = ndb.StringProperty(required=True)
-    frequency = ndb.StringProperty(required=True)
-    location = ndb.GeoPtProperty()
-    pictures = ndb.BlobProperty(required=True, repeated=True)
+    name = ndb.StringProperty()
+    place = ndb.StringProperty()
+    description = ndb.TextProperty()
+    address = ndb.StringProperty()
+    city = ndb.StringProperty()
+    region = ndb.StringProperty()
+    zip_code = ndb.StringProperty()
+    country = ndb.StringProperty()
+    place_url = ndb.StringProperty()
+    start_time = ndb.StringProperty()
+    frequency = ndb.StringProperty()
+    # location = ndb.StringProperty(required=True)
+    lat_lon = ndb.FloatProperty(repeated=True)
+    # pictures = ndb.BlobProperty(required=True, repeated=True)
 
     # people = ndb.StructuredProperty(Person, repeated=True)
 
@@ -106,32 +108,52 @@ class Home(webapp2.RequestHandler):
         result=""
         for event in events['events']['event']:
             result+="%s at %s%s" % (event['title'], event['venue_name'],"<br>")
+            logging.info(event['title'])
+            logging.info(event['venue_name'])
+            logging.info(event['description'])
+            logging.info(event['venue_address'])
+            logging.info(event['city_name'])
+            logging.info(event['region_name'])
+            logging.info(event['postal_code'])
+            logging.info(event['country_abbr'])
+            logging.info(event['venue_url'])
+            logging.info(event['start_time'])
+            logging.info(event['recur_string'])
+            logging.info(event['latitude'])
+            logging.info(event['longitude'])
+
+
+            next_event = Event(name = event['title'],
+                                place = event['venue_name'],
+                                description= event['description'],
+                                address = event['venue_address'],
+                                city= event['city_name'],
+                                region = event['region_name'],
+                                zip_code= event['postal_code'],
+                                country = event['country_abbr'],
+                                place_url= event['venue_url'],
+                                start_time = event['start_time'],
+                                frequency= event['recur_string'],
+                                lat_lon = [float(event['latitude']), float(event['longitude'])]
+                                # pictures[0]= event['description'],
+                                )
+            next_event = next_event.put().get()
+            logging.info(next_event.name)
+            logging.info(next_event.place)
+            logging.info(next_event.description)
+            logging.info(next_event.address)
+            logging.info(next_event.city)
+            logging.info(next_event.region)
+            logging.info(next_event.zip_code)
+            logging.info(next_event.country)
+            logging.info(next_event.place_url)
+            logging.info(next_event.start_time)
+            logging.info(next_event.frequency)
+            logging.info(next_event.lat_lon)
+
 
 
         self.response.write(result_template.render({"results": result}))
-
-
-
-
-        '''
-        results_template= jinja_environment.get_template('templates/results.html')
-        base_url = "http://eventful.com/json/events?"
-        search_type = 'q='
-    #    api_key_url = "&api_key=P39qwcnBXLTHTnP3"
-        search_term=self.request.get('query')
-        search_term= search_term.replace(' ', '+')
-        url=base_url + search_type + search_term #+ api_key_url
-        logging.info(url)
-        eventful_data_source= urlfetch.fetch(url)
-        logging.info(eventful_data_source)
-        eventful_json_content= eventful_data_source.content
-        logging.info(eventful_json_content)
-        # eventful_dictionary= json.loads(eventful_json_content)
-        # logging.info(eventful_dictionary)
-    #    url_dictionary=eventful_dictionary['data'][0]['']['original']['url']
-    #    goodurl={'niceurl': url}
-        self.response.out.write(results_template.render({'url': unichr(eventful_json_content)}))
-        '''
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
