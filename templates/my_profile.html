@@ -9,6 +9,13 @@
       <h1>
       <a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
       </h1>
+      <p><!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
+          <a href="/form" id='menutab' style="text-decoration: none">New Event</a>
+          <a href="/my_profile" id='menutab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">My Profile</a>
+          <a href="/saved" id='menutab' style="text-decoration: none">Saved Events</a>
+          <a href="/map" id='menutab' style="text-decoration: none">Map Events</a>
+
+      </p>
       <br>
       <h3>Name: {{name}}</h3>
       <h3>Email: {{email}}</h3>
@@ -22,4 +29,9 @@
       </form>
       <!-- <button id='my_profile' onclick="location.href='/'">Go Back</button> -->
   </body>
+  <footer>
+    Copyright
+    <br> (c) Karen Dorvil, Romeo Umana, & Rainbow (Laan) Yeung, 2015.
+    <a href='/about'>About</a>
+  </footer>
 </html>

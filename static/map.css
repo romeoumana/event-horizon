@@ -3,13 +3,15 @@ body{
   background-repeat: no-repeat;
 }
 h1{
-text-align: center;
-font-size: 60px;
-font-family:sans-serif;
-background-color: rgba(41, 0, 41, 0.5);
-}
-form{
   color: white;
+  text-align: center;
+  font-family:sans-serif;
+  background-color: rgba(41, 0, 41, 0.5);
+  font-size: 50px;
+}
+footer{
+  color: white;
+  text-align: center;
 }
 #menutab{
   color: white;
@@ -18,18 +20,14 @@ form{
   border-color: rgb(41, 0, 41);
   font-size: 25px;
 }
-footer{
-  color: white;
-  text-align: center;
-}
 a:link {
-    color: #000066;
+    color: #DADAFF;
 }
 a:visited {
     color: #7E437E;
 }
 a:hover {
-    color: #520052;
+    color: #D699FF;
 }
 a:active {
     color: #0000FF;
