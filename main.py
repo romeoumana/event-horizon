@@ -106,54 +106,56 @@ class Home(webapp2.RequestHandler):
         logging.info(events)
         result_template= jinja_environment.get_template('templates/result.html')
         result=""
-        for event in events['events']['event']:
-            result+="%s at %s%s" % (event['title'], event['venue_name'],"<br>")
-            logging.info(event['title'])
-            logging.info(event['venue_name'])
-            logging.info(event['description'])
-            logging.info(event['venue_address'])
-            logging.info(event['city_name'])
-            logging.info(event['region_name'])
-            logging.info(event['postal_code'])
-            logging.info(event['country_abbr'])
-            logging.info(event['venue_url'])
-            logging.info(event['start_time'])
-            logging.info(event['recur_string'])
-            logging.info(event['latitude'])
-            logging.info(event['longitude'])
+        if int(events['page_count']) > 0:
+
+            for event in events['events']['event']:
+                result+="%s at %s%s" % (event['title'], event['venue_name'],"<br>")
+                logging.info(event['title'])
+                logging.info(event['venue_name'])
+                logging.info(event['description'])
+                logging.info(event['venue_address'])
+                logging.info(event['city_name'])
+                logging.info(event['region_name'])
+                logging.info(event['postal_code'])
+                logging.info(event['country_abbr'])
+                logging.info(event['venue_url'])
+                logging.info(event['start_time'])
+                logging.info(event['recur_string'])
+                logging.info(event['latitude'])
+                logging.info(event['longitude'])
 
 
-            next_event = Event(name = event['title'],
-                                place = event['venue_name'],
-                                description= event['description'],
-                                address = event['venue_address'],
-                                city= event['city_name'],
-                                region = event['region_name'],
-                                zip_code= event['postal_code'],
-                                country = event['country_abbr'],
-                                place_url= event['venue_url'],
-                                start_time = event['start_time'],
-                                frequency= event['recur_string'],
-                                lat_lon = [float(event['latitude']), float(event['longitude'])]
-                                # pictures[0]= event['description'],
-                                )
-            next_event = next_event.put().get()
-            logging.info(next_event.name)
-            logging.info(next_event.place)
-            logging.info(next_event.description)
-            logging.info(next_event.address)
-            logging.info(next_event.city)
-            logging.info(next_event.region)
-            logging.info(next_event.zip_code)
-            logging.info(next_event.country)
-            logging.info(next_event.place_url)
-            logging.info(next_event.start_time)
-            logging.info(next_event.frequency)
-            logging.info(next_event.lat_lon)
+                next_event = Event(name = event['title'],
+                                    place = event['venue_name'],
+                                    description= event['description'],
+                                    address = event['venue_address'],
+                                    city= event['city_name'],
+                                    region = event['region_name'],
+                                    zip_code= event['postal_code'],
+                                    country = event['country_abbr'],
+                                    place_url= event['venue_url'],
+                                    start_time = event['start_time'],
+                                    frequency= event['recur_string'],
+                                    lat_lon = [float(event['latitude']), float(event['longitude'])]
+                                    # pictures[0]= event['description'],
+                                    )
 
-
-
-        self.response.write(result_template.render({"results": result}))
+                next_event = next_event.put().get()
+                logging.info(next_event.name)
+                logging.info(next_event.place)
+                logging.info(next_event.description)
+                logging.info(next_event.address)
+                logging.info(next_event.city)
+                logging.info(next_event.region)
+                logging.info(next_event.zip_code)
+                logging.info(next_event.country)
+                logging.info(next_event.place_url)
+                logging.info(next_event.start_time)
+                logging.info(next_event.frequency)
+                logging.info(next_event.lat_lon)
+            self.response.write(result_template.render({"results": result}))
+        else:
+            self.response.write(result_template.render({"results": "None"}))
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
