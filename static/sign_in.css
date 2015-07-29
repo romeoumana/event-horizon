@@ -1,8 +1,7 @@
 body{
-  background-image:  url(http://walldiskpaper.com/wp-content/uploads/2014/10/Underwater-Coral-Wallpaper-Backgrounds.jpg);
+  background-image:  url(http://i.giphy.com/xTiTnxT2EQqsrUMz7y.gif), url(http://media.giphy.com/media/l41lMcIYp0A2UGSdi/giphy.gif);
   font-size: 50px;
   text-align: center;
-  background-repeat: no-repeat;
   background-size: cover;
 }
 footer{
@@ -10,4 +9,3 @@ footer{
   text-align: center;
   font-size: 16px;
 }
-url(http://media.giphy.com/media/xTiTnxT2EQqsrUMz7y/giphy.gif),
