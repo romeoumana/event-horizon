@@ -20,6 +20,7 @@ import os
 import logging
 import json
 import urllib
+import unicodedata
 
 
 from google.appengine.api import urlfetch
@@ -68,8 +69,12 @@ class MainHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         template= jinja_environment.get_template('templates/sign_in.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
-        # if user and profile exists:
-        #     self.redirect('/home')
+        people = Person.query()
+        if user:
+            for person in people:
+                if person.userID == user.user_id():
+                    self.redirect('/home')
+                    return
         if user:
             self.redirect('/create_profile')
 
@@ -162,45 +167,24 @@ class MapHandler(webapp2.RequestHandler):
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         if user:
             template = jinja_environment.get_template('templates/my_profile.html')
             people = Person.query()
             for person in people:
                 if person.userID == user.user_id():
-                    self.response.write(template.render({'name': person.name,'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+                    template_data['name'] = person.name #unicodedata.normalize('NFKD', person.name).encode('ascii','ignore')
+                    template_data['email'] = user.email()
+                    template_data['bio'] = person.bio
+                    self.response.write(template.render(template_data))
                     break
+            # line below may never execute because user will always have a profile at this point
+            # only uncomment line below if Google users get in without a TEH profile
             # self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
-
-
-def get_data(user):
-    return {
-        'name': user.name,
-        'email': user.email,
-        'number': user.number,
-    }
-
-
-def get_info(method, query):
-    student_info = None
-
-    if method == 'name':
-        logging.info("we're looking for mir")
-        moar_students = Student.query()
-        for student in moar_students:
-            if student.name == query:
-                logging.info("found mur")
-                student_info = get_data(student)
-
-    if method == 'id':
-        student = Student.get_by_id(int(query))
-        if student:
-            student_info = get_data(student)
-    return student_info
-
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
@@ -221,28 +205,16 @@ class SearchHandler(webapp2.RequestHandler):
                 self.response.write(template.render(get_data(student)))
             self.response.write("<a href='/home'>Go back home</a> <br>")
 
-
-class StudentHandler(webapp2.RequestHandler):
-    def get(self):
-        student_id = int(self.request.get('id'))
-        student = Student.get_by_id(student_id)
-        template = jinja_environment.get_template('templates/student.html')
-        student_info = {
-            'student_name': student.name,
-            'school': student.school,
-            'age': student.age,
-        }
-        self.response.write(template.render(student_info))
-
 class CreateProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = jinja_environment.get_template('templates/profile_form.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
-
     def post(self):
         user = users.get_current_user()
-        person = Person(name = self.request.get('person_name'), userID = user.user_id()).put()
+        person = Person(name = self.request.get('person_name'), userID = user.user_id(), email = user.email(), number = '305-305-3053', bio = self.request.get('bio'))
+
+        person.put()
         self.redirect('/home')
 
 
