@@ -100,14 +100,16 @@ class Home(webapp2.RequestHandler):
         #!/usr/bin/env python
         api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
         # api = eventful.API('test_key', cache=None)
-        events = api.call('/events/search', q= self.request.get('query'), l='Boston') #later will be self.request.get('city')
+        events = api.call('/events/search', q= self.request.get('query', default_value='music'), l=self.request.get('city', default_value='boston')) #later will be self.request.get('city')
+        logging.info(events)
         result_template= jinja_environment.get_template('templates/result.html')
         result=""
         for event in events['events']['event']:
             result+="%s at %s%s" % (event['title'], event['venue_name'],"<br>")
 
-            
+
         self.response.write(result_template.render({"results": result}))
+
 
 
 
