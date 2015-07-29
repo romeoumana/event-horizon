@@ -2,7 +2,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
+    <link rel="stylesheet" type="text/css" href="/static/map.css">
     <title>Map Events</title>
+  </head>
+  <body>
     <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a> </h1>
     <p><!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
         <a href="/form" id='menutab' style="text-decoration: none">New Event</a>
@@ -12,7 +16,6 @@
 
     </p>
     <br>
-    <link rel="stylesheet" type="text/css" href="/static/map.css">
     <br>
     <style>
       #map-canvas {
@@ -25,7 +28,15 @@
     <script>
     var MY_MAPTYPE_ID = 'custom_style';
       function initialize() {
-
+        var stylesArray = [
+  {
+    featureType: 'all',
+    elementType: 'labels.text',
+    stylers: [
+      { color: "#99FF33" }
+    ]
+  }
+]
         var mapCanvas = document.getElementById('map-canvas');
         var mapOptions = {
           zoom: 8,
@@ -78,8 +89,6 @@
 
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
-  </head>
-  <body>
     <div id="map-canvas"></div>
   </body>
   <footer>
