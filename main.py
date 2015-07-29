@@ -109,7 +109,6 @@ class Home(webapp2.RequestHandler):
         if int(events['page_count']) > 0:
 
             for event in events['events']['event']:
-                result+="%s at %s%s" % (event['title'], event['venue_name'],"<br>")
                 logging.info(event['title'])
                 logging.info(event['venue_name'])
                 logging.info(event['description'])
@@ -139,8 +138,11 @@ class Home(webapp2.RequestHandler):
                                     lat_lon = [float(event['latitude']), float(event['longitude'])]
                                     # pictures[0]= event['description'],
                                     )
-
-                next_event = next_event.put().get()
+                next_event = next_event.put()
+                event_id = str(next_event.id())
+                logging.info('========================== EVENT ID')
+                logging.info(event_id)
+                next_event = next_event.get()
                 logging.info(next_event.name)
                 logging.info(next_event.place)
                 logging.info(next_event.description)
@@ -153,6 +155,9 @@ class Home(webapp2.RequestHandler):
                 logging.info(next_event.start_time)
                 logging.info(next_event.frequency)
                 logging.info(next_event.lat_lon)
+
+                result+= "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
+
             self.response.write(result_template.render({"results": result}))
         else:
             self.response.write(result_template.render({"results": "None"}))
@@ -231,8 +236,25 @@ class CreateProfileHandler(webapp2.RequestHandler):
         person.put()
         self.redirect('/home')
 
+class EventHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        template = jinja_environment.get_template('templates/event.html')
+        template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
+        event = Event.get_by_id(long(self.request.get('id')))
 
+        template_data['name'] = event.name
+        template_data['place'] = event.place
+        template_data['description'] = event.description
+        template_data['address'] = event.address
+        template_data['city'] = event.city
+        template_data['region'] = event.region
+        template_data['zip_code'] = event.zip_code
+        template_data['country'] = event.country
+        template_data['start_time'] = event.start_time
+        template_data['frequency'] = event.frequency
 
+        self.response.write(template.render(template_data))
 
 routes = [
     ('/',MainHandler),
@@ -243,7 +265,8 @@ routes = [
     ('/map', MapHandler),
     ('/form', FormHandler),
     ('/my_profile', ProfileHandler),
-    ('/create_profile', CreateProfileHandler)
+    ('/create_profile', CreateProfileHandler),
+    ('/event', EventHandler)
 ]
 
 app = webapp2.WSGIApplication(routes, debug=True)
