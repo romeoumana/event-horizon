@@ -68,8 +68,12 @@ class MainHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         template= jinja_environment.get_template('templates/sign_in.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
-        # if user and profile exists:
-        #     self.redirect('/home')
+        people = Person.query()
+        if user:
+            for person in people:
+                if person.userID == user.user_id():
+                    self.redirect('/home')
+                    return
         if user:
             self.redirect('/create_profile')
 
@@ -161,12 +165,14 @@ class MapHandler(webapp2.RequestHandler):
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         if user:
             template = jinja_environment.get_template('templates/my_profile.html')
             people = Person.query()
             for person in people:
                 if person.userID == user.user_id():
-                    self.response.write(template.render({'name': person.name,'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+                    template_data['name'] = person.name,
+                    self.response.write(template.render(template_data))
                     break
             # self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
 
