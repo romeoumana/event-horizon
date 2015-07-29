@@ -28,15 +28,6 @@
     <script>
     var MY_MAPTYPE_ID = 'custom_style';
       function initialize() {
-        var stylesArray = [
-  {
-    featureType: 'all',
-    elementType: 'labels.text',
-    stylers: [
-      { color: "#99FF33" }
-    ]
-  }
-]
         var mapCanvas = document.getElementById('map-canvas');
         var mapOptions = {
           zoom: 8,
@@ -51,12 +42,19 @@
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = new google.maps.LatLng(position.coords.latitude,
                                              position.coords.longitude);
+            //var pos1 = new google.maps.LatLng(71.05, 42.32);
 
             var infowindow = new google.maps.InfoWindow({
               map: map,
               position: pos,
               content: 'Your location'
             });
+
+            '''var infowindow1 = new google.maps.InfoWindow({
+              map: map,
+              content: 'food',
+              position: pos1
+            });''' // make new markers, reference to pos1
 
             map.setCenter(pos);
           }, function() {
