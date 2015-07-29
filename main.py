@@ -68,6 +68,8 @@ class MainHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         template= jinja_environment.get_template('templates/sign_in.html')
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+        # if user and profile exists:
+        #     self.redirect('/home')
         if user:
             self.redirect('/create_profile')
 
@@ -136,18 +138,20 @@ class SavedHandler(webapp2.RequestHandler):
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/form.html')
-            self.response.write(template.render())
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
 
 class MapHandler(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/map.html')
-            self.response.write(template.render())
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
@@ -157,10 +161,18 @@ class ProfileHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/my_profile.html')
-            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+            people = Person.query()
+            for person in people:
+                if person.userID == user.user_id():
+                    self.response.write(template.render({'name': person.name,'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+                    break
+            # self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
+
+
 def get_data(user):
     return {
         'name': user.name,
@@ -221,9 +233,11 @@ class StudentHandler(webapp2.RequestHandler):
 
 class CreateProfileHandler(webapp2.RequestHandler):
     def get(self):
+        user = users.get_current_user()
         template = jinja_environment.get_template('templates/profile_form.html')
-        self.repsonse.write(template.render())
-    def get(self):
+        self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+
+    def post(self):
         user = users.get_current_user()
         person = Person(name = self.request.get('person_name'), userID = user.user_id()).put()
         self.redirect('/home')

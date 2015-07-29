@@ -2,18 +2,28 @@
 <html>
 <!-- romeo's comment-->
 {% include 'templates/user.html' %}
+<link rel="stylesheet" type="text/css" href="/static/about.css">
   <head>
     <title>About the Batmanatees</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src ="/static/about.js"></script>
   </head>
   <body>
-    <h2><a href='/home' style="color:black; text-decoration: none">The Event Horizon</a></h2>
-    <h1>The Batmanatees</h1>
-      <h2>Karen Dorvil</h2>
+    <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
       <br>
-      <h2>Romeo Umana</h2>
+    </h1>
+    <h2>The Batmanatees</h2>
+      <div id='aboutpeople'>
+        Karen Dorvil
       <br>
-      <h2>Rainbow (Laan) Yeung </h2>
+      Romeo Umana
       <br>
-      <button id='about' onclick="location.href='/'">Go Back</button>
+      Rainbow (Laan) Yeung
+      <br>
+    </div>
   </body>
+  <footer>
+    Copyright
+    <br> (c) Karen Dorvil, Romeo Umana, & Rainbow (Laan) Yeung, 2015.
+  </footer>
 </html>

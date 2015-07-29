@@ -3,11 +3,15 @@ body{
   background-repeat: no-repeat;
 }
 h1{
-color: white;
-text-align: center;
-font-size: 60px;
-font-family:sans-serif;
-background-color: rgba(41, 0, 41, 0.5);
+  color: white;
+  text-align: center;
+  font-family:sans-serif;
+  background-color: rgba(41, 0, 41, 0.5);
+  font-size: 50px;
+}
+footer{
+  color: white;
+  text-align: center;
 }
 #menutab{
   color: white;
@@ -15,13 +19,6 @@ background-color: rgba(41, 0, 41, 0.5);
   border: solid;
   border-color: rgb(41, 0, 41);
   font-size: 25px;
-}
-form{
-  color: white;
-}
-footer{
-  color: white;
-  text-align: center;
 }
 a:link {
     color: #DADAFF;

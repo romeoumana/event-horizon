@@ -11,6 +11,13 @@ background-color: rgba(41, 0, 41, 0.5);
 form{
   color: white;
 }
+#menutab{
+  color: white;
+  background-color: rgba(41, 0, 41, 0.5);
+  border: solid;
+  border-color: rgb(41, 0, 41);
+  font-size: 25px;
+}
 footer{
   color: white;
   text-align: center;
