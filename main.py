@@ -139,7 +139,7 @@ class FormHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/form.html')
-            self.response.write(template.render())
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
@@ -149,7 +149,7 @@ class MapHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         if user:
             template = jinja_environment.get_template('templates/map.html')
-            self.response.write(template.render())
+            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
