@@ -227,20 +227,35 @@ class FormHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         template = jinja_environment.get_template('templates/event.html')
-        next_event = Event(name = self.request.get('name'),
-                            place = event['venue_name'],
-                            description= event['description'],
-                            address = event['venue_address'],
-                            city= event['city_name'],
-                            region = event['region_name'],
-                            zip_code= event['postal_code'],
-                            country = event['country_abbr'],
-                            place_url= event['venue_url'],
-                            start_time = event['start_time'],
-                            frequency= event['recur_string'],
-                            lat_lon = [float(event['latitude']), float(event['longitude'])]
-                            # pictures[0]= event['description'],
-                            )
+        if self.request.get('latitude') != "" and self.request.get('longitude') != "":
+            next_event = Event(name = self.request.get('name'),
+                                place = self.request.get('venue_name'),
+                                description= self.request.get('description'),
+                                address = self.request.get('venue_address'),
+                                city= self.request.get('city_name'),
+                                region = self.request.get('region_name'),
+                                zip_code= self.request.get('postal_code'),
+                                country = self.request.get('country_abbr'),
+                                place_url= self.request.get('venue_url'),
+                                start_time = self.request.get('start_time'),
+                                frequency= self.request.get('recur_string'),
+                                lat_lon = [float(self.request.get('latitude')), float(event['longitude'))]
+                                # pictures[0]= event['description'],
+                                )
+        else:
+            next_event = Event(name = self.request.get('name'),
+                                place = self.request.get('venue_name'),
+                                description= self.request.get('description'),
+                                address = self.request.get('venue_address'),
+                                city= self.request.get('city_name'),
+                                region = self.request.get('region_name'),
+                                zip_code= self.request.get('postal_code'),
+                                country = self.request.get('country_abbr'),
+                                place_url= self.request.get('venue_url'),
+                                start_time = self.request.get('start_time'),
+                                frequency= self.request.get('recur_string'),
+                                # pictures[0]= event['description'],
+                                )
         match = False
         name = next_event.name
         next_event = next_event.put()
