@@ -6,10 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/static/event.css">
   </head>
   <body>
+    {% include 'templates/user.html' %}
       <h1>
       <a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
-</h1><br>
-{% include 'templates/user.html' %}
+</h1>
+<br>
 <title>User Info</title>
     <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
       <p id='menutab'>

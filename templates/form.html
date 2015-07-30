@@ -5,6 +5,7 @@
     <title>Create New Events</title>
   </head>
   <body>
+    {% include 'templates/user.html' %}
   <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a></h1>
   <p id='menutab'>
     <a href="/form" id='tab' style="background-color: rgba(105, 77, 105, 0.5); text-decoration: none">New Event</a>
@@ -12,8 +13,6 @@
     <a href="/saved" id='tab' style="text-decoration: none">Saved Events</a>
     <a href="/map" id='tab' style="text-decoration: none">Map Events</a>
   </p>
-  <br>
-  {% include 'templates/user.html' %}
   <br>
   <form method = "post">
     <pre>
