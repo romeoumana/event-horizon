@@ -1,7 +1,6 @@
 <!DOCTYPE.html>
 <html>
 <!-- romeo's comment-->
-{% include 'templates/user.html' %}
   <head>
     <title>About the Batmanatees</title>
     <link rel="stylesheet" type="text/css" href="/static/about.css">
@@ -11,6 +10,7 @@
   </head>
   <body>
     <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
+      {% include 'templates/user.html' %}
       <br>
     </h1>
     <h2>The Batmanatees</h2>
