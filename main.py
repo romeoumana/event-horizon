@@ -449,7 +449,7 @@ routes = [
     ('/saved', SavedHandler),
     ('/romeo', RomeoHandler),
     ('/map', MapHandler),
-    ('/form', FormHandler),
+    ('/forms', FormHandler),
     ('/my_profile', ProfileHandler),
     ('/create_profile', CreateProfileHandler),
     ('/event', EventHandler)
