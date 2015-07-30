@@ -1,5 +1,3 @@
-<!-- Romeo's stuff    <a href="/enter">To do something stupid and broken</a> <br> -->
-{% include 'templates/user.html' %}
 <!DOCTYPE.html>
 <html>
   <head>
@@ -10,38 +8,36 @@
     <link rel="shortcut icon" href="favicon.ico">
   </head>
   <body>
-    <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a> </h1>
+    <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a></h1>
 
-      <nav>
-
-        <p><!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
-            <a href="/form" id='menutab' style="text-decoration: none">New Event</a>
-            <a href="/my_profile" id='menutab' style="text-decoration: none">My Profile</a>
-            <a href="/saved" id='menutab' style="text-decoration: none">Saved Events</a>
-            <a href="/map" id='menutab' style="text-decoration: none">Map Events</a>
-
-        </p>
-        <br>
-          <search> <!-- So far, just search by name and id. Other options include: date, specific location, cost, etc. -->
-              <form method = "post">
-                Search for an event by name  <input type="text" name="query">
-                <input type = "submit">
-                <br>
-              </form>
-              <form method = "post">
-                Search for an event by city  &nbsp&nbsp&nbsp<input type="text" name="city">
-                <input type = "submit">
-                <br>
-              </form>
-              <!--<br>
-              <form method = "post">
-                Search for an event by id <input type="text" name="query">
-                <input type = "submit">
-                <br>
-              </form>   search by id, may add later-->
-            </search>
-      </nav>
-   <br>
+    <p id='menutab'>
+      <a href="/form" id='tab' style="text-decoration: none">New Event</a>
+      <a href="/my_profile" id='tab' style="text-decoration: none">My Profile</a>
+      <a href="/saved" id='tab' style="text-decoration: none">Saved Events</a>
+      <a href="/map" id='tab' style="text-decoration: none">Map Events</a>
+    </p>
+    <br>
+    {% include 'templates/user.html' %}
+    <br>
+    <search> <!-- So far, just search by name and id. Other options include: date, specific location, cost, etc. -->
+    <form method = "post">
+      Search for an event by name  <input type="text" name="query">
+      <input type = "submit">
+      <br>
+    </form>
+    <form method = "post">
+      Search for an event by city  &nbsp&nbsp&nbsp<input type="text" name="city">
+      <input type = "submit">
+      <br>
+    </form>
+    <!--<br>
+    <form method = "post">
+      Search for an event by id <input type="text" name="query">
+      <input type = "submit">
+      <br>
+    </form>   search by id, may add later-->
+    </search>
+    <br>
       <!--<button onclick="goGetLunch()">Click me</button>
       <button onclick="askForName()">Get Name</button>-->
   </body>
