@@ -91,7 +91,7 @@ class MainHandler(webapp2.RequestHandler):
 class Home(webapp2.RequestHandler):
     def get(self):
 
-        # deletes everything on datastore
+        # # deletes everything on datastore
         # people = Event.query()
         # for person in people:
         #     person.key.delete()
@@ -113,6 +113,8 @@ class Home(webapp2.RequestHandler):
             self.response.write(not_signed_in_template.render())
 
     def post(self):
+        user = users.get_current_user()
+        template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         #!/usr/bin/env python
         api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
         # api = eventful.API('test_key', cache=None)
@@ -152,11 +154,24 @@ class Home(webapp2.RequestHandler):
                                     lat_lon = [float(event['latitude']), float(event['longitude'])]
                                     # pictures[0]= event['description'],
                                     )
+                match = False
+                name = next_event.name
                 next_event = next_event.put()
                 event_id = str(next_event.id())
+                next_event = next_event.get()
+                start_time = next_event.start_time
+                all_events = Event.query()
+                for each_event in all_events:
+                    if name == each_event.name and start_time == each_event.start_time:
+                        match = True
+                        logging.info('this event exists already')
+                if not match:
+                    next_event = next_event.put()
+                    next_event = next_event.get()
+
                 # logging.info('========================== EVENT ID')
                 # logging.info(event_id)
-                next_event = next_event.get()
+
                 # logging.info(next_event.name)
                 # logging.info(next_event.place)
                 # logging.info(next_event.description)
@@ -169,10 +184,11 @@ class Home(webapp2.RequestHandler):
                 # logging.info(next_event.start_time)
                 # logging.info(next_event.frequency)
                 # logging.info(next_event.lat_lon)
-
                 result+= "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
 
-            self.response.write(result_template.render({"results": result}))
+
+            template_data['results'] = result
+            self.response.write(result_template.render(template_data))
         else:
             self.response.write(result_template.render({"results": "None"}))
 
@@ -289,6 +305,7 @@ class EventHandler(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         people = Person.query()
+        person_key = None
         for person in people:
             if person.userID == user.user_id():
                 person_key = person.key
@@ -306,12 +323,19 @@ class EventHandler(webapp2.RequestHandler):
             logging.info('relationship.person.id()')
             logging.info(relationship.person.id())
 
+            logging.info('person names')
+            logging.info(person_key.get().name + " " + relationship.person.get().name)
+
             logging.info('event_key.id()')
             logging.info(event_key.id())
 
             logging.info('relationship.event.id()')
             logging.info(relationship.event.id())
-            if (person_key.id() == relationship.person.id() and event_key.id() == relationship.event.id()):
+
+            logging.info('event names')
+            logging.info(event_key.get().name + " " + relationship.event.get().name)
+
+            if (person_key.id() == relationship.person.id() and event_key.get().name == relationship.event.get().name):
                 match = True
                 logging.info("there is a match in relationships! noswag")
         if not match:
