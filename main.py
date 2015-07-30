@@ -180,8 +180,9 @@ class AboutPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if user:
+            template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
             template= jinja_environment.get_template('templates/about.html')
-            self.response.write(template.render())
+            self.response.write(template.render(template_data))
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
