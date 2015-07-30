@@ -3,7 +3,6 @@
   <head>
     <title>The Event Horizon</title>
     <script src="static/home.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/home.css">
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
     <link rel="shortcut icon" href="favicon.ico">
   </head>
@@ -19,17 +18,18 @@
     <br>
     {% include 'templates/user.html' %}
     <br>
-    <search> <!-- So far, just search by name and id. Other options include: date, specific location, cost, etc. -->
+    <search>
     <form method = "post">
-      Search for an event by name  <input type="text" name="query">
-      <input type = "submit">
-      <br>
+      <pre>
+      Search for an event by name  <input type="text" name="query"><input type = "submit">
+      </pre>
     </form>
     <form method = "post">
-      Search for an event by city  &nbsp&nbsp&nbsp<input type="text" name="city">
-      <input type = "submit">
-      <br>
+      <pre>
+      Search for an event by city  <input type="text" name="city"><input type = "submit">
+      </pre>
     </form>
+
     <!--<br>
     <form method = "post">
       Search for an event by id <input type="text" name="query">

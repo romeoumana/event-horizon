@@ -2,28 +2,24 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
-    <link rel="stylesheet" type="text/css" href="/static/profile_form.css">
     <title>Create New Events</title>
   </head>
   <body>
     <h1><a href='/' style="color:white; text-decoration: none">The Event Horizon</a></h1>
+    <br>
     {% include 'templates/user.html' %}
-    
     <br>
     <form method = "post">
+      <pre>
       Enter your profile name  <input type="text" name="person_name">
-      <br><br>
-      <textarea name="bio" rows="10" cols="30"> Enter a short bio here. </textarea>
-      <br>
+      <textarea name="bio" rows="10" cols="68"> Enter a short bio here. </textarea>
       <input type = "submit">
-      <br>
+    </pre>
     </form>
-  <!--
-    <a href="/home">Go back home</a> <br>
---><footer>
+  </body>
+  <footer>
   Copyright
   <br> (c) Karen Dorvil, Romeo Umana, & Rainbow (Laan) Yeung, 2015.
   <a href='/about'>About</a>
-</footer>
-  </body>
+  </footer>
 </html>
