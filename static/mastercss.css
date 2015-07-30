@@ -3,12 +3,12 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 h1{
 color: white;
 font-size: 50px;
-font-family:serif;
+font-family: 'Open Sans', sans-serif;
 text-align: center;
 background-color: rgba(41, 0, 41, 0.5);
 
@@ -16,8 +16,14 @@ background-color: rgba(41, 0, 41, 0.5);
 h2{
  color: white;
  text-align: center;
- font-family:sans-serif;
+ font-family: 'Open Sans', sans-serif;
  background-color: rgba(41, 0, 41, 0.5);
+}
+h3{
+  color: white;
+  font-size: 18px;
+  font-weight: normal;
+  font-family: 'Open Sans', sans-serif;
 }
 #menutab{
 
@@ -25,19 +31,26 @@ h2{
 #tab{
   color: white;
   text-align: right;
-  font-size: 25px;
+  font-size: 20px;
   border: solid;
   border-color: rgb(0, 0, 0);
   background: rgba(41, 0, 41, 0.5);
+  font-family: 'Open Sans', sans-serif;
 }
 form{
   color: white;
+  font-size: 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+pre{
+  font-family: 'Open Sans', sans-serif;
   font-size: 20px;
 }
 footer{
   color: white;
   text-align: center;
   font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
 }
 a:link {
     color: #DADAFF;
