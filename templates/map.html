@@ -6,6 +6,7 @@
     <title>Map Events</title>
   </head>
   <body>
+    {% include 'templates/user.html' %}
   <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a></h1>
   <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
   <p id='menutab'>
@@ -14,8 +15,6 @@
     <a href="/saved" id='tab' style="text-decoration: none">Saved Events</a>
     <a href="/map" id='tab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">Map Events</a>
   </p>
-  <br>
-  {% include 'templates/user.html' %}
   <br>
   <br>
   <style>

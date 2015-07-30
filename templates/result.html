@@ -5,6 +5,7 @@
     <title>Results</title>
   </head>
   <body>
+    {% include 'templates/user.html' %}
       <h1>
       <a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
       <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
@@ -16,8 +17,6 @@
           <a href="/map" id='tab' style="text-decoration: none">Map Events</a>
 
       </p>
-      {% include 'templates/user.html' %}
-
   <br>
   <h2> Your results</h2>
   <br>
