@@ -1,27 +1,26 @@
 <!DOCTYPE.html>
-{% include 'templates/user.html' %}
 <html>
   <head>
     {% include 'templates/user.html' %}
     <title>User Info</title>
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
-    <link rel="stylesheet" type="text/css" href="/static/my_profile.css">
     <link rel="stylesheet" type="text/css" href="/static/event.css">
   </head>
   <body>
       <h1>
       <a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
-      </h1>
-      <p><!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
-          <a href="/form" id='menutab' style="text-decoration: none">New Event</a>
-          <a href="/my_profile" id='menutab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">My Profile</a>
-          <a href="/saved" id='menutab' style="text-decoration: none">Saved Events</a>
-          <a href="/map" id='menutab' style="text-decoration: none">Map Events</a>
+</h1>
+    <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
+      <p id='menutab'>    <a href="/form" id='tab' style="text-decoration: none">New Event</a>
+          <a href="/my_profile" id='tab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">My Profile</a>
+          <a href="/saved" id='tab' style="text-decoration: none">Saved Events</a>
+          <a href="/map" id='tab' style="text-decoration: none">Map Events</a>
 
       </p>
+      {% include 'templates/user.html' %}
       <br>
-<<<<<<< HEAD
-      <h3>Name: {{name}}</h3>
+
+      <!-- <h3>Name: {{name}}</h3>
       <h3>Place: {{place}}</h3>
       <h3>Description: {{description}}</h3>
       <h3>Address: {{address}}</h3>
@@ -30,11 +29,11 @@
       <h3>Postal Code: {{zip_code}}</h3>
       <h3>Country: {{country}}</h3>
       <h3>Starts at: {{start_time}}</h3>
-      <h3>Frequency: {{frequency}}</h3>
-=======
+      <h3>Frequency: {{frequency}}</h3> -->
+
       <h3 id='name'>{{name}}</h3>
       <h3 id='time'>Time: {{start_time}}
-      <br> for {{frequency}} </h3>
+      <br> Frequency: {{frequency}} </h3>
       <h3 id='address'>Address: {{place}},
       <br> {{address}},
       <br> {{city}}, {{region}}, {{zip_code}}
@@ -42,7 +41,6 @@
       <a href="/map"> Click to see {{city}} events on map</a>
       </h3>
       <h3 id='description'>Description: {{description}}</h3>
->>>>>>> c712a11a56720e74378759613d3784ba9c20ab8c
       <br>
 
       <form method = "post">

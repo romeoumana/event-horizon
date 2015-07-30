@@ -1,15 +1,19 @@
 body{
-  background-image: url(http://baihusi.com/wp-content/uploads/2015/03/original-black-wood-texture-wood-grain-black-life-cl-ical-two-wallpaper-with-1900x1200-resolution.jpg);
+  background-image: url(http://www.resimsi.com/wp-content/uploads/2015/06/sunset-wallpaper-widescreen.jpg);
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   color: white;
   font-family: sans-serif;
 }
 h1{
 color: white;
-text-align: center;
+text-align: left;
 font-size: 50px;
 font-family:serif;
+display:inline;
 background-color: rgba(41, 0, 41, 0.5);
+
 }
 h2{
  color: white;
@@ -18,11 +22,17 @@ h2{
  background-color: rgba(41, 0, 41, 0.5);
 }
 #menutab{
+  display: inline-block;
+  margin-left: 400px;
+
+}
+#tab{
   color: white;
-  background-color: rgba(41, 0, 41, 0.5);
-  border: solid;
-  border-color: rgb(41, 0, 41);
+  text-align: right;
   font-size: 25px;
+  border: solid;
+  border-color: rgb(0, 0, 0);
+  background: rgba(41, 0, 41, 0.5);
 }
 form{
   color: white;
@@ -37,7 +47,7 @@ a:link {
     color: #DADAFF;
 }
 a:visited {
-    color: #7E437E;
+    color: #B188DA;
 }
 a:hover {
     color: #D699FF;

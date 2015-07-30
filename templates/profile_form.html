@@ -1,5 +1,4 @@
 <!DOCTYPE.html>
-{% include 'templates/user.html' %}
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
@@ -8,6 +7,8 @@
   </head>
   <body>
     <h1><a href='/' style="color:white; text-decoration: none">The Event Horizon</a></h1>
+    {% include 'templates/user.html' %}
+    
     <br>
     <form method = "post">
       Enter your profile name  <input type="text" name="person_name">
