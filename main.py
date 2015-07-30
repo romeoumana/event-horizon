@@ -90,15 +90,17 @@ class MainHandler(webapp2.RequestHandler):
 
 class Home(webapp2.RequestHandler):
     def get(self):
-        people = Event.query()
-        for person in people:
-            person.key.delete()
-        people = Person.query()
-        for person in people:
-            person.key.delete()
-        people = PersonEvent.query()
-        for person in people:
-            person.key.delete()
+
+        # deletes everything on datastore
+        # people = Event.query()
+        # for person in people:
+        #     person.key.delete()
+        # people = Person.query()
+        # for person in people:
+        #     person.key.delete()
+        # people = PersonEvent.query()
+        # for person in people:
+        #     person.key.delete()
 
 
 
@@ -278,6 +280,8 @@ class EventHandler(webapp2.RequestHandler):
         template_data['country'] = event.country
         template_data['start_time'] = event.start_time
         template_data['frequency'] = event.frequency
+        # if event.frequency == None:
+        #     template_data['frequency'] = event.frequency
 
         self.response.write(template.render(template_data))
 
