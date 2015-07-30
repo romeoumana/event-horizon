@@ -90,6 +90,18 @@ class MainHandler(webapp2.RequestHandler):
 
 class Home(webapp2.RequestHandler):
     def get(self):
+        people = Event.query()
+        for person in people:
+            person.key.delete()
+        people = Person.query()
+        for person in people:
+            person.key.delete()
+        people = PersonEvent.query()
+        for person in people:
+            person.key.delete()
+
+
+
         user = users.get_current_user()
         if user:
             template= jinja_environment.get_template('templates/home.html')
@@ -103,25 +115,25 @@ class Home(webapp2.RequestHandler):
         api = eventful.API('P39qwcnBXLTHTnP3',cache=None)
         # api = eventful.API('test_key', cache=None)
         events = api.call('/events/search', q= self.request.get('query', default_value='music'), l=self.request.get('city', default_value='boston')) #later will be self.request.get('city')
-        logging.info(events)
+        # logging.info(events)
         result_template= jinja_environment.get_template('templates/result.html')
         result=""
         if int(events['page_count']) > 0:
 
             for event in events['events']['event']:
-                logging.info(event['title'])
-                logging.info(event['venue_name'])
-                logging.info(event['description'])
-                logging.info(event['venue_address'])
-                logging.info(event['city_name'])
-                logging.info(event['region_name'])
-                logging.info(event['postal_code'])
-                logging.info(event['country_abbr'])
-                logging.info(event['venue_url'])
-                logging.info(event['start_time'])
-                logging.info(event['recur_string'])
-                logging.info(event['latitude'])
-                logging.info(event['longitude'])
+                # logging.info(event['title'])
+                # logging.info(event['venue_name'])
+                # logging.info(event['description'])
+                # logging.info(event['venue_address'])
+                # logging.info(event['city_name'])
+                # logging.info(event['region_name'])
+                # logging.info(event['postal_code'])
+                # logging.info(event['country_abbr'])
+                # logging.info(event['venue_url'])
+                # logging.info(event['start_time'])
+                # logging.info(event['recur_string'])
+                # logging.info(event['latitude'])
+                # logging.info(event['longitude'])
 
 
                 next_event = Event(name = event['title'],
@@ -140,21 +152,21 @@ class Home(webapp2.RequestHandler):
                                     )
                 next_event = next_event.put()
                 event_id = str(next_event.id())
-                logging.info('========================== EVENT ID')
-                logging.info(event_id)
+                # logging.info('========================== EVENT ID')
+                # logging.info(event_id)
                 next_event = next_event.get()
-                logging.info(next_event.name)
-                logging.info(next_event.place)
-                logging.info(next_event.description)
-                logging.info(next_event.address)
-                logging.info(next_event.city)
-                logging.info(next_event.region)
-                logging.info(next_event.zip_code)
-                logging.info(next_event.country)
-                logging.info(next_event.place_url)
-                logging.info(next_event.start_time)
-                logging.info(next_event.frequency)
-                logging.info(next_event.lat_lon)
+                # logging.info(next_event.name)
+                # logging.info(next_event.place)
+                # logging.info(next_event.description)
+                # logging.info(next_event.address)
+                # logging.info(next_event.city)
+                # logging.info(next_event.region)
+                # logging.info(next_event.zip_code)
+                # logging.info(next_event.country)
+                # logging.info(next_event.place_url)
+                # logging.info(next_event.start_time)
+                # logging.info(next_event.frequency)
+                # logging.info(next_event.lat_lon)
 
                 result+= "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
 
@@ -209,14 +221,25 @@ class ProfileHandler(webapp2.RequestHandler):
         template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         if user:
             template = jinja_environment.get_template('templates/my_profile.html')
-            people = Person.query()
+            people = Person.query().fetch()
+            # logging.info(people)
             for person in people:
                 if person.userID == user.user_id():
                     template_data['name'] = person.name #unicodedata.normalize('NFKD', person.name).encode('ascii','ignore')
                     template_data['email'] = user.email()
                     template_data['bio'] = person.bio
-                    self.response.write(template.render(template_data))
                     break
+            relationships = PersonEvent.query().fetch()
+            template_data['results'] = ""
+            for relationship in relationships:
+                if relationship.person.get().name == template_data['name']:
+                    event = relationship.event.get()
+                    event_id = str(event.key.id())
+
+                    template_data['results'] += "<a href='/event?id=" + event_id + "'>" + event.name + " at " + event.place + "</a><br>"
+
+            self.response.write(template.render(template_data))
+
             # line below may never execute because user will always have a profile at this point
             # only uncomment line below if Google users get in without a TEH profile
             # self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
@@ -243,6 +266,8 @@ class EventHandler(webapp2.RequestHandler):
         template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         event = Event.get_by_id(long(self.request.get('id')))
 
+
+
         template_data['name'] = event.name
         template_data['place'] = event.place
         template_data['description'] = event.description
@@ -255,6 +280,40 @@ class EventHandler(webapp2.RequestHandler):
         template_data['frequency'] = event.frequency
 
         self.response.write(template.render(template_data))
+
+    def post(self):
+        user = users.get_current_user()
+        people = Person.query()
+        for person in people:
+            if person.userID == user.user_id():
+                person_key = person.key
+                break
+        event_key = Event.get_by_id(long(self.request.get('id'))).key
+        attender = PersonEvent(person = person_key, event = event_key)
+        relationships = PersonEvent.query()
+        logging.info(relationships)
+        match = False
+        for relationship in relationships:
+
+            logging.info('person_key.id()')
+            logging.info(person_key.id())
+
+            logging.info('relationship.person.id()')
+            logging.info(relationship.person.id())
+
+            logging.info('event_key.id()')
+            logging.info(event_key.id())
+
+            logging.info('relationship.event.id()')
+            logging.info(relationship.event.id())
+            if (person_key.id() == relationship.person.id() and event_key.id() == relationship.event.id()):
+                match = True
+                logging.info("there is a match in relationships! noswag")
+        if not match:
+            attender.put()
+            logging.info("no relationship match swag")
+        self.redirect('/my_profile')
+
 
 routes = [
     ('/',MainHandler),
