@@ -223,6 +223,47 @@ class FormHandler(webapp2.RequestHandler):
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
+    def post(self):
+        user = users.get_current_user()
+        template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
+        template = jinja_environment.get_template('templates/event.html')
+        next_event = Event(name = self.request.get('name'),
+                            place = event['venue_name'],
+                            description= event['description'],
+                            address = event['venue_address'],
+                            city= event['city_name'],
+                            region = event['region_name'],
+                            zip_code= event['postal_code'],
+                            country = event['country_abbr'],
+                            place_url= event['venue_url'],
+                            start_time = event['start_time'],
+                            frequency= event['recur_string'],
+                            lat_lon = [float(event['latitude']), float(event['longitude'])]
+                            # pictures[0]= event['description'],
+                            )
+        match = False
+        name = next_event.name
+        next_event = next_event.put()
+        # event_id = str(next_event.key.id())
+        # template_data['id']= str(next_event.key.id())
+        logging.info("======== lets see the ID")
+        logging.info(event_id)
+        next_event = next_event.get()
+        start_time = next_event.start_time
+        all_events = Event.query()
+        for each_event in all_events:
+            if name == each_event.name and start_time == each_event.start_time:
+                match = True
+                logging.info('this event exists already')
+        if not match:
+            next_event = next_event.put()
+            next_event = next_event.get()
+        result = "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
+
+
+        template_data['results'] = result
+        self.response.write(result_template.render(template_data))
+
 
 class MapHandler(webapp2.RequestHandler):
     def get(self):
@@ -316,24 +357,24 @@ class EventHandler(webapp2.RequestHandler):
         logging.info(relationships)
         match = False
         for relationship in relationships:
-
-            logging.info('person_key.id()')
-            logging.info(person_key.id())
-
-            logging.info('relationship.person.id()')
-            logging.info(relationship.person.id())
-
-            logging.info('person names')
-            logging.info(person_key.get().name + " " + relationship.person.get().name)
-
-            logging.info('event_key.id()')
-            logging.info(event_key.id())
-
-            logging.info('relationship.event.id()')
-            logging.info(relationship.event.id())
-
-            logging.info('event names')
-            logging.info(event_key.get().name + " " + relationship.event.get().name)
+            #
+            # logging.info('person_key.id()')
+            # logging.info(person_key.id())
+            #
+            # logging.info('relationship.person.id()')
+            # logging.info(relationship.person.id())
+            #
+            # logging.info('person names')
+            # logging.info(person_key.get().name + " " + relationship.person.get().name)
+            #
+            # logging.info('event_key.id()')
+            # logging.info(event_key.id())
+            #
+            # logging.info('relationship.event.id()')
+            # logging.info(relationship.event.id())
+            #
+            # logging.info('event names')
+            # logging.info(event_key.get().name + " " + relationship.event.get().name)
 
             if (person_key.id() == relationship.person.id() and event_key.get().name == relationship.event.get().name):
                 match = True
