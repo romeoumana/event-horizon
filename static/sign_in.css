@@ -1,8 +1,13 @@
 body{
-  background: url(http://www.lookpictures.net/photos/registered_photos/5347-batman-3-gotham-city-wallpaper.jpg) no-repeat;
-  font-size: 50px;
+  background: url("space.jpg");
   text-align: center;
   background-size: cover;
+}
+h1{
+  font-size: 70px;
+}
+h3{
+  font-size: 40px;
 }
 footer{
   color: white;
