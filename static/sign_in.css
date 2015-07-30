@@ -3,11 +3,19 @@ body{
   text-align: center;
   background-size: cover;
 }
-h1{
+h2{
   font-size: 70px;
+  font-weight: bolder;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgb(12,12,12);
+  font-family: 'Pacifico', cursive;
 }
 h3{
   font-size: 40px;
+}
+h4{
+  font-size: 50px;
+  background: rgba(255, 255, 255, 0.5);
 }
 footer{
   color: white;
