@@ -19,6 +19,12 @@ h2{
  font-family: 'Open Sans', sans-serif;
  background-color: rgba(41, 0, 41, 0.5);
 }
+h3{
+  color: white;
+  font-size: 18px;
+  font-weight: normal;
+  font-family: 'Open Sans', sans-serif;
+}
 #menutab{
 
 }
