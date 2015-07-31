@@ -8,12 +8,16 @@
   <body>
   <h1><a href='/home' style="color:white; text-decoration: none">The Event Horizon</a></h1>
   <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
+
+
+
   <p id='menutab'>
     <a href="/form" id='tab' style="text-decoration: none">New Event</a>
     <a href="/my_profile" id='tab' style="text-decoration: none">My Profile</a>
     <a href="/saved" id='tab' style="text-decoration: none">Saved Events</a>
     <a href="/map" id='tab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">Map Events</a>
   </p>
+  <br>
   <br>
   {% include 'templates/user.html' %}
   <br>
@@ -35,6 +39,7 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
   var map = new google.maps.Map(mapCanvas, mapOptions)
+
   // Try HTML5 geolocation
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -44,6 +49,27 @@
       position: pos,
       content: 'Your location'
     });
+
+
+
+    //new marker
+    {% for name, latitude, longitude in zip %}
+      var pos1 = new google.maps.LatLng({{latitude}},{{longitude}});
+      var infowindow1 = new google.maps.InfoWindow({
+        map: map,
+        position: pos1,
+        content: '{{name|escape}}'
+      });
+    {% endfor %}
+
+
+{#
+  {% for name, latitude, longitude in zip %}
+    <p>
+      Name:{{name}} and location: {{latitude}} , {{longitude}}
+    </p>
+  {% endfor %}#}
+
     map.setCenter(pos);
     },
     function() {

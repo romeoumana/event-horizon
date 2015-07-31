@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 #
 # Copyright 2007 Google Inc.
 #
@@ -303,12 +303,31 @@ class FormHandler(webapp2.RequestHandler):
 class MapHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        template_data = {'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}
         if user:
+            events = Event.query()
+            # locations = []
+            latitudes = []
+            longitudes = []
+
+            names = []
+            i = 0
+            for event in events:
+                latitudes.append(float(event.lat_lon[0]))
+                longitudes.append(float(event.lat_lon[1]))
+                names.append(event.name)
+                i += 1
+
             template = jinja_environment.get_template('templates/map.html')
-            self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
+            combined = zip(set(names), set(latitudes), set(longitudes))
+            template_data['zip'] = combined
+            self.response.write(template.render(template_data))
         else:
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
+
+
+
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
