@@ -29,9 +29,16 @@ from google.appengine.ext import ndb
 
 from google.appengine.ext import vendor
 
+# from twilio.rest import TwilioRestClient
+# import twilio
+
+
 # Add any libraries installed in the "lib" folder.
 vendor.add('lib')
-
+# from twilio.rest.resources import SmsMessages
+#
+# import twilio
+# import twilio.rest
 import httplib2
 import simplejson
 import eventful
@@ -74,6 +81,19 @@ class RomeoHandler(webapp2.RequestHandler):
         template= jinja_environment.get_template('templates/romeo.html')
         self.response.write(template.render({'results': "no swag"}))
 
+
+# Your Account Sid and Auth Token from twilio.com/user/account
+# account_sid = "AC32a3c49700934481addd5ce1659f04d2"
+# auth_token  = "{{ auth_token }}"
+# account_sid = "ACa0a71e9219433e4b3d9f5edb40cf3d6f"
+# auth_token = "ed61ec98d6b79a5580d0f5a67feda8e9"
+# client = TwilioRestClient(account_sid, auth_token)
+#
+# message = client.messages.create(body="test",
+#    to="+13057763642",    # Replace with your phone number
+#    from_="+13057763642") # Replace with your Twilio number
+# logging.info(message.sid)
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -101,7 +121,6 @@ class Home(webapp2.RequestHandler):
         # people = PersonEvent.query()
         # for person in people:
         #     person.key.delete()
-
 
 
         user = users.get_current_user()
@@ -190,8 +209,61 @@ class Home(webapp2.RequestHandler):
             template_data['results'] = result
             self.response.write(result_template.render(template_data))
         else:
-            template_data['results'] = "None"
-            self.response.write(result_template.render(template_data))
+            self.response.write(result_template.render({"results": "None"}))
+        #         match = False
+        #         name = next_event.name
+        #         logging.info(name)
+        #         event_id = ""
+        #         start_time = next_event.start_time
+        #         all_events = Event.query().fetch()
+        #         logging.info(len(all_events))
+        #         if len(all_events) > 0:
+        #             for each_event in all_events:
+        #                 if name == each_event.name and start_time == each_event.start_time:
+        #                     match = True
+        #                     logging.info('this event exists already')
+        #
+        #
+        #                 if not match:
+        #                     next_event = next_event.put().get()
+        #                     event_id = str(next_event.key.id())
+        #                     logging.info(each_event.name)
+        #                 else:
+        #                     event_id = str(each_event.key.id())
+        #                     logging.info(each_event.name)
+        #
+        #         else:
+        #             next_event = next_event.put().get()
+        #             event_id = str(next_event.key.id())
+        #             logging.info(next_event.name)
+        #
+        #
+        #
+        #
+        #         # logging.info('========================== EVENT ID')
+        #         # logging.info(event_id)
+        #
+        #         # logging.info(next_event.name)
+        #         # logging.info(next_event.place)
+        #         # logging.info(next_event.description)
+        #         # logging.info(next_event.address)
+        #         # logging.info(next_event.city)
+        #         # logging.info(next_event.region)
+        #         # logging.info(next_event.zip_code)
+        #         # logging.info(next_event.country)
+        #         # logging.info(next_event.place_url)
+        #         # logging.info(next_event.start_time)
+        #         # logging.info(next_event.frequency)
+        #         # logging.info(next_event.lat_lon)
+        #
+        #         result+= "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
+        #
+        #
+        #     template_data['results'] = result
+        #     self.response.write(result_template.render(template_data))
+        # else:
+        #     template_data['results'] = "None"
+        #     self.response.write(result_template.render(template_data))
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
@@ -314,6 +386,10 @@ class MapHandler(webapp2.RequestHandler):
             not_signed_in_template= jinja_environment.get_template('templates/not_signed_in.html')
             self.response.write(not_signed_in_template.render())
 
+
+# def getUser(current_id):
+
+
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -326,7 +402,7 @@ class ProfileHandler(webapp2.RequestHandler):
             for person in people:
                 if person.userID == user.user_id():
                     template_data['name'] = person.name #unicodedata.normalize('NFKD', person.name).encode('ascii','ignore')
-                    template_data['email'] = user.email()
+                    template_data['email'] = person.email
                     template_data['bio'] = person.bio
                     break
             if current_id != "":
@@ -342,7 +418,7 @@ class ProfileHandler(webapp2.RequestHandler):
                 if person_key:
                     person = person_key.get()
                     template_data['name'] = person.name #unicodedata.normalize('NFKD', person.name).encode('ascii','ignore')
-                    template_data['email'] = users.User(person.userID).email()    #user.email()
+                    template_data['email'] = person.email    #user.email()
                     template_data['bio'] = person.bio
 
 
@@ -379,7 +455,7 @@ class CreateProfileHandler(webapp2.RequestHandler):
         self.response.write(template.render({'user': user, 'logout_link': users.create_logout_url('/'), 'nickname': "DEFAULT" if not user else user.nickname(), 'login_link': users.create_login_url('/')}))
     def post(self):
         user = users.get_current_user()
-        person = Person(name = self.request.get('person_name'), userID = user.user_id(), email = user.email(), number = '305-305-3053', bio = self.request.get('bio'))
+        person = Person(name = self.request.get('person_name'), userID = user.user_id(), email = user.email(), number = self.request.get('number'), bio = self.request.get('bio'))
         person.put()
         self.redirect('/home')
 
@@ -408,30 +484,38 @@ class EventHandler(webapp2.RequestHandler):
         # if event.frequency == None:
         #     template_data['frequency'] = event.frequency
 
-        relationships = PersonEvent.query().fetch()
+        # relationships = PersonEvent.query().fetch()
+        # template_data['results'] = ""
+        # for relationship in relationships:
+        #     if relationship and relationship.person and relationship.person.get():
+        #
+        #         logging.info(relationship.person.get().name)
+        #         logging.info(template_data['name'])
+        #
+        #         if relationship.event.id() == event.key.id():
+        #         # if relationship.event.id() == template_data['name']:
+        #             logging.info("there is a match fam!!!!")
+        #         # if relationship.event.get().name == template_data['name']:
+        #             person = relationship.person.get()
+        #             person_id = str(person.userID)
+        #
+        #             # person_id = None
+        #             # people = Person.query()
+        #             # for person in people:
+        #             #     if person.userID == user.user_id():
+        #             #         person_id = str(user.user_id())
+        #             #         break
+        #
+        #             template_data['results'] += "<a href='/my_profile?id=" + person_id + "'>" + person.name + "</a><br>"
         template_data['results'] = ""
-        for relationship in relationships:
-            if relationship and relationship.person and relationship.person.get():
+        query = PersonEvent.query().fetch()
 
-                logging.info(relationship.person.get().name)
-                logging.info(template_data['name'])
-
-                if relationship.event.id() == event.key.id():
-                # if relationship.event.id() == template_data['name']:
-                    logging.info("there is a match fam!!!!")
-                # if relationship.event.get().name == template_data['name']:
-                    person = relationship.person.get()
-                    person_id = str(person.userID)
-
-                    # person_id = None
-                    # people = Person.query()
-                    # for person in people:
-                    #     if person.userID == user.user_id():
-                    #         person_id = str(user.user_id())
-                    #         break
-
-                    template_data['results'] += "<a href='/my_profile?id=" + person_id + "'>" + person.name + "</a><br>"
-
+        for relationship in query:
+            current_rel = relationship.event.get()
+            if current_rel.name == event.name and current_rel.start_time == event.start_time:
+                person = relationship.person.get()
+                person_id = str(person.key.id())
+                template_data['results'] += "<a href='/my_profile?id=" + person_id + "'>" + person.name + "</a><br>"
 
         self.response.write(template.render(template_data))
 
@@ -470,7 +554,7 @@ class EventHandler(webapp2.RequestHandler):
             # logging.info('relationship.person.id()')
             # logging.info(relationship.person.id())
             #
-            # logging.info('person names')
+            # logging.info('person names') #lol
             # logging.info(person_key.get().name + " " + relationship.person.get().name)
             #
             # logging.info('event_key.id()')
