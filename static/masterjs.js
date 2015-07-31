@@ -5,4 +5,8 @@ $(document).ready(function(){
     $("h2").click(function(){
         $("#aboutpeople").show();
     });
+    $("#description").hide();
+    $("#descriptiontitle").click(function(){
+        $("#description").toggle();
+    });
   });

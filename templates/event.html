@@ -4,6 +4,8 @@
 
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
     <link rel="stylesheet" type="text/css" href="/static/event.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src ="/static/masterjs.js"></script>
   </head>
   <body>
     {% include 'templates/user.html' %}
@@ -41,7 +43,9 @@
       <br> {{country}}
       <a href="/map"> Click to see {{city}} events on map</a>
       </h3>
-      <h3 id='description'>Description: {{description}}</h3>
+      <h3 id='descriptiontitle'>Description:(Click to view)
+        <h3 id='description'> {{description}}</h3>
+      </h3>
       <br>
 
       <h3>People attending: </h3>
