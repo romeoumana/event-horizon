@@ -3,27 +3,38 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans';
 }
 h1{
 color: white;
 font-size: 50px;
-font-family: 'Open Sans', sans-serif;
+font-family: 'Open Sans';
 text-align: center;
 background-color: rgba(41, 0, 41, 0.5);
-
+}
+pre {
+    display: block;
+    font-family: 'Open Sans';
+    white-space: pre;
+    margin: 1em 0;
+}
+#description{
+     width: 700px;
+     height: 100px;
+     border: rgba(0, 0, 0, 0.0);
+     box-sizing: border-box;
 }
 h2{
  color: white;
  text-align: center;
- font-family: 'Open Sans', sans-serif;
+ font-family: 'Open Sans';
  background-color: rgba(41, 0, 41, 0.5);
 }
 h3{
   color: white;
   font-size: 18px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans';
 }
 #menutab{
 
@@ -35,22 +46,18 @@ h3{
   border: solid;
   border-color: rgb(0, 0, 0);
   background: rgba(41, 0, 41, 0.5);
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans';
 }
 form{
   color: white;
   font-size: 20px;
-  font-family: 'Open Sans', sans-serif;
-}
-pre{
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20px;
+  font-family: 'Open Sans';
 }
 footer{
   color: white;
   text-align: center;
   font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans';
 }
 a:link {
     color: #DADAFF;

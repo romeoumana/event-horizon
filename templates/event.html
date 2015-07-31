@@ -4,16 +4,19 @@
 
     <link rel="stylesheet" type="text/css" href="/static/mastercss.css">
     <link rel="stylesheet" type="text/css" href="/static/event.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src ="/static/masterjs.js"></script>
   </head>
   <body>
+    {% include 'templates/user.html' %}
       <h1>
       <a href='/home' style="color:white; text-decoration: none">The Event Horizon</a>
-</h1><br>
-{% include 'templates/user.html' %}
+</h1>
+<br>
 <title>User Info</title>
     <!--if the user is "viewed as guest", my profiles, saved events, and logout would not work-->
       <p id='menutab'>
-          <a href="/form" id='tab' style="text-decoration: none">New Event</a>
+          <a href="/forms" id='tab' style="text-decoration: none">New Event</a>
           <a href="/my_profile" id='tab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">My Profile</a>
           <a href="/saved" id='tab' style="text-decoration: none">Saved Events</a>
           <a href="/map" id='tab' style="text-decoration: none">Map Events</a>
@@ -40,10 +43,15 @@
       <br> {{country}}
       <a href="/map"> Click to see {{city}} events on map</a>
       </h3>
-      <h3 id='description'>Description: {{description}}</h3>
+      <h3 id='descriptiontitle'>Description:(Click to view)
+        <h3 id='description'> {{description}}</h3>
+      </h3>
       <br>
 
-      <form method = "post">
+      <h3>People attending: </h3>
+      {{results}}
+
+      <form method = "post" >
         <input type = "submit" value = "Attend">
         <br>
       </form>

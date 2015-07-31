@@ -5,14 +5,14 @@
     <title>Create New Events</title>
   </head>
   <body>
-    <h1><a href='/' style="color:white; text-decoration: none">The Event Horizon</a></h1>
-    <br>
     {% include 'templates/user.html' %}
+    <h1><a href='/' style="color:white; text-decoration: none">The Event Horizon</a></h1>
     <br>
     <form method = "post">
       <pre>
-      Enter your profile name  <input type="text" name="person_name">
-      <textarea name="bio" rows="10" cols="68"> Enter a short bio here. </textarea>
+      Enter your profile name <input type="text" name="person_name">
+
+      <textarea name="bio" rows="10" cols="51"> Enter a short bio here. </textarea>
       <input type = "submit">
     </pre>
     </form>
