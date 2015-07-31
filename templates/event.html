@@ -43,16 +43,16 @@
       <br> {{country}}
       <a href="/map"> Click to see {{city}} events on map</a>
       </h3>
-      <h3 id='descriptiontitle'>Description:(Click to view)
+      <h3 id='descriptiontitle'style="postion: relative;">Description:(Click to view)
         <h3 id='description'> {{description}}</h3>
       </h3>
       <br>
 
-      <h3>People attending: </h3>
+      <h3 style="postion: relative;">People attending: </h3>
       {{results}}
 
       <form method = "post" >
-        <input type = "submit" value = "Attend">
+        <input id="attend" style="postion: relative;" type = "submit" value = "Attend">
         <br>
       </form>
 
@@ -60,10 +60,11 @@
 
       <!-- Maybe put this in sign up page and show the info here instead-->
       <!-- <button id='my_profile' onclick="location.href='/'">Go Back</button> -->
-  </body>
+
   <footer>
     Copyright
     <br> (c) Karen Dorvil, Romeo Umana, & Rainbow (Laan) Yeung, 2015.
     <a href='/about'>About</a>
   </footer>
+  </body>
 </html>

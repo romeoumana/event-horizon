@@ -19,10 +19,7 @@ pre {
     margin: 1em 0;
 }
 #description{
-     width: 700px;
-     height: 100px;
-     border: rgba(0, 0, 0, 0.0);
-     box-sizing: border-box;
+     
 }
 h2{
  color: white;
