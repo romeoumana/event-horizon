@@ -144,19 +144,6 @@ class Home(webapp2.RequestHandler):
         if int(events['page_count']) > 0:
 
             for event in events['events']['event']:
-                # logging.info(event['title'])
-                # logging.info(event['venue_name'])
-                # logging.info(event['description'])
-                # logging.info(event['venue_address'])
-                # logging.info(event['city_name'])
-                # logging.info(event['region_name'])
-                # logging.info(event['postal_code'])
-                # logging.info(event['country_abbr'])
-                # logging.info(event['venue_url'])
-                # logging.info(event['start_time'])
-                # logging.info(event['recur_string'])
-                # logging.info(event['latitude'])
-                # logging.info(event['longitude'])
 
 
                 next_event = Event(name = event['title'],
@@ -178,31 +165,17 @@ class Home(webapp2.RequestHandler):
                 next_event = next_event.put()
                 event_id = str(next_event.id())
                 next_event = next_event.get()
-                start_time = next_event.start_time
-                all_events = Event.query()
-                for each_event in all_events:
-                    if name == each_event.name and start_time == each_event.start_time:
-                        match = True
-                        logging.info('this event exists already')
-                if not match:
-                    next_event = next_event.put()
-                    next_event = next_event.get()
+                # start_time = next_event.start_time
+                # all_events = Event.query()
 
-                # logging.info('========================== EVENT ID')
-                # logging.info(event_id)
+                # for each_event in all_events:
+                #     if name == each_event.name and start_time == each_event.start_time:
+                #         match = True
+                #         logging.info('this event exists already')
+                # if not match:
+                #     next_event = next_event.put()
+                #     next_event = next_event.get()
 
-                # logging.info(next_event.name)
-                # logging.info(next_event.place)
-                # logging.info(next_event.description)
-                # logging.info(next_event.address)
-                # logging.info(next_event.city)
-                # logging.info(next_event.region)
-                # logging.info(next_event.zip_code)
-                # logging.info(next_event.country)
-                # logging.info(next_event.place_url)
-                # logging.info(next_event.start_time)
-                # logging.info(next_event.frequency)
-                # logging.info(next_event.lat_lon)
                 result+= "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
 
 
@@ -210,60 +183,6 @@ class Home(webapp2.RequestHandler):
             self.response.write(result_template.render(template_data))
         else:
             self.response.write(result_template.render({"results": "None"}))
-        #         match = False
-        #         name = next_event.name
-        #         logging.info(name)
-        #         event_id = ""
-        #         start_time = next_event.start_time
-        #         all_events = Event.query().fetch()
-        #         logging.info(len(all_events))
-        #         if len(all_events) > 0:
-        #             for each_event in all_events:
-        #                 if name == each_event.name and start_time == each_event.start_time:
-        #                     match = True
-        #                     logging.info('this event exists already')
-        #
-        #
-        #                 if not match:
-        #                     next_event = next_event.put().get()
-        #                     event_id = str(next_event.key.id())
-        #                     logging.info(each_event.name)
-        #                 else:
-        #                     event_id = str(each_event.key.id())
-        #                     logging.info(each_event.name)
-        #
-        #         else:
-        #             next_event = next_event.put().get()
-        #             event_id = str(next_event.key.id())
-        #             logging.info(next_event.name)
-        #
-        #
-        #
-        #
-        #         # logging.info('========================== EVENT ID')
-        #         # logging.info(event_id)
-        #
-        #         # logging.info(next_event.name)
-        #         # logging.info(next_event.place)
-        #         # logging.info(next_event.description)
-        #         # logging.info(next_event.address)
-        #         # logging.info(next_event.city)
-        #         # logging.info(next_event.region)
-        #         # logging.info(next_event.zip_code)
-        #         # logging.info(next_event.country)
-        #         # logging.info(next_event.place_url)
-        #         # logging.info(next_event.start_time)
-        #         # logging.info(next_event.frequency)
-        #         # logging.info(next_event.lat_lon)
-        #
-        #         result+= "<a href='/event?id=" + event_id + "'>" + event['title'] + " at " + event['venue_name'] + "</a><br>" # "<a href='/event?id=%s> %s at %s</a><br>" % (event_id, event['title'], event['venue_name'])
-        #
-        #
-        #     template_data['results'] = result
-        #     self.response.write(result_template.render(template_data))
-        # else:
-        #     template_data['results'] = "None"
-        #     self.response.write(result_template.render(template_data))
 
 class AboutPage(webapp2.RequestHandler):
     def get(self):
