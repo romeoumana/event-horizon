@@ -19,12 +19,6 @@
     <a href="/map" id='tab' style="background-color: rgba(105, 77, 105, 0.5);text-decoration: none">Map Events</a>
   </p>
   <br>
-<<<<<<< HEAD
-  <br>
-  {% include 'templates/user.html' %}
-  <br>
-=======
->>>>>>> 1974e9e20344c0b8f7596c4e33ff783fc7ce6628
   <br>
   <style>
   #map-canvas {
@@ -39,7 +33,7 @@
   function initialize() {
     var mapCanvas = document.getElementById('map-canvas');
     var mapOptions = {
-      zoom: 8,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
   var map = new google.maps.Map(mapCanvas, mapOptions)
